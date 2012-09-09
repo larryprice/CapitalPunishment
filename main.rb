@@ -3,18 +3,43 @@ require 'open-uri'
 require 'sinatra'
 
 @@answer = Array.new
+@@question = ""
+@@all_answers = Array.new
 
 get '/' do
-  reload(true, nil, nil, nil)
+  reload
   erb :CountriesAndCapitals
 end
 
 post '/check_answer' do
-  reload(@@answer.include?(answer), @data, @country_info, @game_type)
+  reload(compare_with_correct_answer(params[:answer].to_s.strip), @data, @country_info, @game_type)
   erb :CountriesAndCapitals
 end
 
-def reload(was_correct, old_data, old_info, game_type)
+def compare_with_correct_answer(answer)
+  case answer
+  when "first"
+    selected_answer = @@all_answers[0]
+  when "second"
+    selected_answer = @@all_answers[1]
+  when "third"
+    selected_answer = @@all_answers[2]
+  when "fourth"
+    selected_answer = @@all_answers[3]
+  when "fifth"
+    selected_answer = @@all_answers[4]
+  else
+    return "No answer selected. Not sure how you did that, but bully for you."
+  end
+
+  if @@answer.include?(selected_answer)
+    return 'Correct! The capital of ' + @@question.to_s + ' is ' + selected_answer.to_s + '.'
+  else
+    return 'False. The capital of ' + @@question.to_s + ' is certainly not ' + selected_answer.to_s + '. Try harder'
+  end
+end
+
+def reload(result = nil, old_data = nil, old_info = nil, game_type = nil)
   @game_type = :CAPITALS
   if old_data.nil?
     data = get_data
@@ -36,6 +61,8 @@ def reload(was_correct, old_data, old_info, game_type)
 
   @data = data
   @country_info = country_info
+
+  @result = result
 end
 
 def check_details(data)
@@ -91,12 +118,26 @@ end
 def get_new_question(country_info)
   index = Random.rand(country_info.count)
   if @game_type == :CAPITALS
-    @question = country_info[index].first[0]
+    @@question = country_info[index].first[0]
     @@answer = country_info[index].first[1]
+    generate_answers_for_capitals @@answer, country_info
   else
-    @question = country_info[index].first[1]
+    @@question = country_info[index].first[1]
     @@answer = country_info[index].first[0]
   end
+end
+
+def generate_answers_for_capitals(right_answer, all_answers)
+  answers = Array.new
+  answers << right_answer[Random.rand(right_answer.count)]
+  filtered_answers = all_answers.delete_if { |a, b| b == right_answer }  # not sure if working
+  (0...4).each do |i|
+      wrong_answer = filtered_answers[Random.rand(filtered_answers.count)]
+      wrong_answer_caps = wrong_answer.first[1]
+      answers << wrong_answer_caps[Random.rand(wrong_answer_caps.count)]
+  end
+
+  @@all_answers = answers.sort_by {rand}
 end
 
 def toggle_game_type

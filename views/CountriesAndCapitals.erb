@@ -10,31 +10,54 @@
         page-break-before: always;
         page-break-after: always;
     }
-    #foo {
+    #question {
         position:absolute;
         top:25%;
-        right:25%;
-        bottom:25%;
-        left:25%;
+        right:15%;
+        bottom:45%;
+        left:15%;
         padding:10px;
         margin:10px;
+    }
+    #radio_buttons {
+      position:relative;
+      top:20%;
+      right:15%;
+      bottom:20%;
+      left:45%;
     }
   </style>
 </head>
 <body>
-   <div id="foo">
+   <div id="question">
      <div align="center" style="font-size: 48px">
        <p>What is the capital of</p>
      </div>
      <br/><br/>
      <div align="center" style="font-size: 60px">
-       <p><b><%= @question %></b></p>
+       <p><b><%= @@question %></b></p>
      </div>
      <br/><br/>
-     <form action="/check_answer" method="POST" align="center">
-       <input type="text" name="answer" placeholder="Enter Answer Here"/><br/>
-       <input type="submit" value="Submit"/>
-     </form>
+     <div id="radio_buttons">
+       <form action="/check_answer" method="POST" >
+         <input type="radio" name="answer" value="first" checked="true"/><%=@@all_answers[0]%><br/>
+         <input type="radio" name="answer" value="second"/><%=@@all_answers[1]%><br/>
+         <input type="radio" name="answer" value="third"/><%=@@all_answers[2]%><br/>
+         <input type="radio" name="answer" value="fourth"/><%=@@all_answers[3]%><br/>
+         <input type="radio" name="answer" value="fifth"/><%=@@all_answers[4]%><br/>
+         <input type="submit" value="Submit"/>
+       </form>
+     </div>
+     <div align="center">
+       <%= @result %>
+     </div>
    </div>
+  <span style ="position:absolute;right:0;bottom:0">
+    <a href="http://www.nullablevoid.blogspot.com/">
+      <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Blogger.svg/256px-Blogger.svg.png" width="64" height="64"/></a>
+    <a href="https://github.com/lpdev">
+      <img src="http://landeiro.github.com/expander/images/github.png" width="64" height="64"/>
+    </a>
+  </span>
 </body>
 </html>
