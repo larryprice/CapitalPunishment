@@ -253,9 +253,13 @@ def toggle_game_type
 end
 
 def get_question_statement
-  if @@question_statement.nil?
-    @@question_statement = "Whose capital is"
-  end
+  @@question_statement = "Whose capital is" if @@question_statement.nil?
 
   @@question_statement
+end
+
+def get_question
+  return "" if @@question.nil?
+
+  @@question
 end
