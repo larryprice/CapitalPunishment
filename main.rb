@@ -85,9 +85,14 @@ def get_details(data)
         next
       end
     end
-
-    { country => get_capital(row) }
+    if country != 'Tonga'
+      { country => get_capital(row) }
+    else
+      { country => 'Nuku\'alofa' }
+    end
   end
+
+  p details
 
   details = details.select { |detail| !detail.nil? }
 end
@@ -130,11 +135,14 @@ end
 def generate_answers_for_capitals(right_answer, all_answers)
   answers = Array.new
   answers << right_answer[Random.rand(right_answer.count)]
-  filtered_answers = all_answers.delete_if { |a, b| b == right_answer }  # not sure if working
-  (0...4).each do |i|
+  filtered_answers = all_answers.delete_if { |a, b| b == right_answer }
+  while answers.count < 5
       wrong_answer = filtered_answers[Random.rand(filtered_answers.count)]
       wrong_answer_caps = wrong_answer.first[1]
-      answers << wrong_answer_caps[Random.rand(wrong_answer_caps.count)]
+      answer_to_add = wrong_answer_caps[Random.rand(wrong_answer_caps.count)]
+      if !answers.include?(answer_to_add)
+        answers << answer_to_add
+      end
   end
 
   @@all_answers = answers.sort_by {rand}
