@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Countries and Capitals</title>
+  <link rel="stylesheet"
+  href="http://current.bootstrapcdn.com/bootstrap-v204/css/bootstrap-combined.min.css">
+  <style>
+    div {
+        page-break-before: always;
+        page-break-after: always;
+    }
+    #foo {
+        position:absolute;
+        top:25%;
+        right:25%;
+        bottom:25%;
+        left:25%;
+        padding:10px;
+        margin:10px;
+    }
+  </style>
+</head>
+<body>
+   <div id="foo">
+     <div align="center" style="font-size: 48px">
+       <p>What is the capital of</p>
+     </div>
+     <br/><br/>
+     <div align="center" style="font-size: 60px">
+       <p><b><%= @question %></b></p>
+     </div>
+     <br/><br/>
+     <form action="/check_answer" method="POST" align="center">
+       <input type="text" name="answer" placeholder="Enter Answer Here"/><br/>
+       <input type="submit" value="Submit"/>
+     </form>
+   </div>
+</body>
+</html>
