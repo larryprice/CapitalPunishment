@@ -150,8 +150,6 @@ def get_state_details(data)
     { country => capital }
   end
   details = details.select { |detail| !detail.nil? }
-
-  p details
 end
 
 def get_details(data)
@@ -165,10 +163,10 @@ def get_details(data)
     if country != 'Tonga'
       { country => get_capital(row) }
     else
-      { country => 'Nukuʻalofa' }
+      { country => 'Nuku\ʻalofa' }
     end
   end
-
+  
   details = details.select { |detail| !detail.nil? }
 end
 
