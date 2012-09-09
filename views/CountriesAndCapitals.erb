@@ -39,13 +39,7 @@
        <br/><br/>
      </div>
      <div align="center" style="font-size: 48px">
-       <p>
-          <%if @@question_statement.nil? %>
-            What is the capital of
-          <% else %>
-            <%= @@question_statement %>
-          <%end %>
-       </p>
+       <p><%= get_question_statement %></p>
      </div>
      <br/><br/>
      <div align="center" style="font-size: 60px">

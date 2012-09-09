@@ -251,3 +251,11 @@ def toggle_game_type
     @@question_statement = "What is the capital of"
   end
 end
+
+def get_question_statement
+  if @@question_statement.nil?
+    @@question_statement = "Whose capital is"
+  end
+
+  @@question_statement
+end
