@@ -31,8 +31,11 @@
 <body>
    <div id="question">
      <div align="center">
-       <img src="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/us.png"
-           width="128" height="128" alt="US Mode" title="This is US mode."/>
+       <form action="/toggle_mode_us" method="POST" >
+          <input type="image" src="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/us.png"
+                 style="background-color:transparent;border-color:transparent;width:128px;height:128px"
+                 title="Click to invert questions."/>
+        </form>
        <br/><br/>
      </div>
      <div align="center" style="font-size: 48px">
@@ -71,7 +74,8 @@
   </span>
   <form action="/switch_to_world_mode" method="POST" >
       <input type="image" src="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/world.png"
-             style="position:absolute;left:0;bottom:0;background-color:transparent;border-color:transparent;width:64px;height:64px"/>
+             style="position:absolute;left:0;bottom:0;background-color:transparent;border-color:transparent;width:64px;height:64px"
+             title="Click to switch to world mode." alt="Switch modes."/>
     </form>
 </body>
 </html>
