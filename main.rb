@@ -1,6 +1,10 @@
-require 'nokogiri'
-require 'open-uri'
+# This file contains all logic for the CapitalPunishment web app.
+# Larry Price 2012
+
 require 'sinatra'
+require 'nokogiri'
+
+require 'open-uri'
 
 @@answer = Array.new
 @@question = ""
