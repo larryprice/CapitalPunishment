@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
   <meta charset="UTF-8">
-  <title>Capital Punishment - World Countries and Capitals</title>
+  <title>Capital Punishment - US States and Capitals</title>
   <link rel="icon" type="image/png" href="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/world.png"/>
   <link rel="shortcut icon" href="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/world.png"/>
   <link rel="stylesheet"
@@ -31,12 +31,12 @@
 <body>
    <div id="question">
      <div align="center">
-       <img src="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/world.png"
-           width="128" height="128" alt="World Mode" title="This is world mode."/>
+       <img src="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/us.png"
+           width="128" height="128" alt="US Mode" title="This is US mode."/>
        <br/><br/>
      </div>
      <div align="center" style="font-size: 48px">
-       <p><%= @@question_statement %></p>
+       <p><%=  @@question_statement %></p>
      </div>
      <br/><br/>
      <div align="center" style="font-size: 60px">
@@ -44,7 +44,7 @@
      </div>
      <br/><br/>
      <div id="radio_buttons">
-       <form action="/check_answer" method="POST" >
+       <form action="/check_us_answer" method="POST" >
          <input type="radio" name="answer" value="first" checked="true"/><%=@@all_answers[0]%><br/>
          <input type="radio" name="answer" value="second"/><%=@@all_answers[1]%><br/>
          <input type="radio" name="answer" value="third"/><%=@@all_answers[2]%><br/>
@@ -61,7 +61,7 @@
    </div>
   <span style ="position:absolute;right:0;bottom:0">
     <a href="http://www.nullablevoid.blogspot.com/">
-      <img alt="Blogger logo." src="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/256px-Blogger.svg.png"
+      <img alt="Blogger logo."  src="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/256px-Blogger.svg.png"
            width="64" height="64" title="Visit my blog to see what I've been up to."/>
     </a>
     <a href="https://github.com/lpdev">
@@ -69,8 +69,8 @@
            width="64" height="64" title="Visit my public repos to see the code."/>
     </a>
   </span>
-    <form action="/switch_to_us_mode" method="POST" >
-      <input type="image" src="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/us.png"
+  <form action="/switch_to_world_mode" method="POST" >
+      <input type="image" src="https://raw.github.com/lpdev/CapitalPunishment/master/views/images/world.png"
              style="position:absolute;left:0;bottom:0;background-color:transparent;border-color:transparent;width:64px;height:64px"/>
     </form>
 </body>
