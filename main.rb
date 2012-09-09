@@ -163,7 +163,7 @@ def get_details(data)
     if country != 'Tonga'
       { country => get_capital(row) }
     else
-      { country => 'Nuku\ʻalofa' }
+      { country => 'Nuku\'alofa' }
     end
   end
   
