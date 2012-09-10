@@ -7,12 +7,6 @@ require 'nokogiri'
 require 'open-uri'
 require 'singleton'
 
-@@answer = Array.new
-@@question = ""
-@@question_statement = "What is the capital of"
-@@all_answers = Array.new
-@@game_type = :CAPITALS
-
 get '/' do
   erb :CountriesAndCapitals
 end
@@ -47,9 +41,10 @@ post '/toggle_mode_us' do
   erb :StatesAndCapitals
 end
 
+#Base class for flavors of CapitalPunishment game
 class CountriesAndCapitalsBase
-  def get_data
-    Nokogiri::HTML(open(@url))
+  def load_data
+    @data = Nokogiri::HTML(open(@url))
   end
 
   def get_new_question
@@ -149,6 +144,10 @@ class CountriesAndCapitalsBase
     end
   end
 
+  def load_details
+    @info = Array.new
+  end
+
   def reset_result
     @result = ""
   end
@@ -171,34 +170,24 @@ class CountriesAndCapitalsBase
   end
 
   def get_result
-    @result = "" if @result.nil?
+    reset_result if @result.nil?
     @result
   end
 end
 
+# Class for loading data for worldwide states and capitals
 class CountriesAndCapitals < CountriesAndCapitalsBase
   include Singleton
   def initialize
     toggle_game_type
     @url = "http://en.wikipedia.org/wiki/List_of_national_capitals"
-    @data = get_data
-    @info = check_details(@data)
+    load_data
+    load_details
     get_new_question
   end
 
-  def check_details(data)
-    details = get_details(data)
-
-    if details.nil?
-      @error =
-        "Apparently Wikipedia has changed their table format on the Countries page. :("
-    end
-
-    details
-  end
-
-  def get_details(data)
-    details = data.xpath("//table[@class='wikitable sortable']/tr").map do |row|
+  def load_details
+    details = @data.xpath("//table[@class='wikitable sortable']/tr").map do |row|
 
       country = row.at_xpath('td[2]/b/a/text()').to_s.strip
       if country.nil? || country.empty?
@@ -212,7 +201,7 @@ class CountriesAndCapitals < CountriesAndCapitalsBase
       end
     end
 
-    details = details.select { |detail| !detail.nil? }
+    @info = details.select { |detail| !detail.nil? }
   end
 
   def get_capital(row)
@@ -223,29 +212,19 @@ class CountriesAndCapitals < CountriesAndCapitalsBase
   end
 end
 
+# Class for loading data for US States and Capitals
 class StatesAndCapitals < CountriesAndCapitalsBase
   include Singleton
   def initialize
     toggle_game_type
     @url = "http://en.wikipedia.org/wiki/List_of_capitals_in_the_United_States"
-    @data = get_data
-    @info = check_details(@data)
+    load_data
+    load_details
     get_new_question
   end
 
-  def check_details(data)
-    details = get_state_details(data)
-
-    if details.nil?
-      @error =
-        "Apparently Wikipedia has changed their table format on the US page. :("
-    end
-
-    details
-  end
-
-  def get_state_details(data)
-    details = data.xpath("//table[@class='wikitable sortable']/tr").map do |row|
+  def load_details
+    details = @data.xpath("//table[@class='wikitable sortable']/tr").map do |row|
 
       country = row.at_xpath('td[1]/a/text()').to_s.strip
       next if country.nil? || country.empty?
@@ -254,6 +233,6 @@ class StatesAndCapitals < CountriesAndCapitalsBase
       { country => capital }
     end
     
-    details = details.select { |detail| !detail.nil? }
+    @info = details.select { |detail| !detail.nil? }
   end
 end
