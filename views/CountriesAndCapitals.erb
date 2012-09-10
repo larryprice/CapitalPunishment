@@ -39,26 +39,26 @@
        <br/><br/>
      </div>
      <div align="center" style="font-size: 48px">
-       <p><%= get_question_statement %></p>
+       <p><%= CountriesAndCapitals.instance.get_question_statement %></p>
      </div>
      <br/><br/>
      <div align="center" style="font-size: 60px">
-       <p><b><%= get_question %>?</b></p>
+       <p><b><%= CountriesAndCapitals.instance.get_question %>?</b></p>
      </div>
      <br/><br/>
      <div id="radio_buttons">
        <form action="/check_answer" method="POST" >
-         <input type="radio" name="answer" value="first" checked="true"/><%=@@all_answers[0]%><br/>
-         <input type="radio" name="answer" value="second"/><%=@@all_answers[1]%><br/>
-         <input type="radio" name="answer" value="third"/><%=@@all_answers[2]%><br/>
-         <input type="radio" name="answer" value="fourth"/><%=@@all_answers[3]%><br/>
-         <input type="radio" name="answer" value="fifth"/><%=@@all_answers[4]%><br/>
+         <input type="radio" name="answer" value="first" checked="true"/><%= CountriesAndCapitals.instance.get_all_answers[0]%><br/>
+         <input type="radio" name="answer" value="second"/><%= CountriesAndCapitals.instance.get_all_answers[1]%><br/>
+         <input type="radio" name="answer" value="third"/><%= CountriesAndCapitals.instance.get_all_answers[2]%><br/>
+         <input type="radio" name="answer" value="fourth"/><%= CountriesAndCapitals.instance.get_all_answers[3]%><br/>
+         <input type="radio" name="answer" value="fifth"/><%= CountriesAndCapitals.instance.get_all_answers[4]%><br/>
          <input type="submit" value="Submit"/>
        </form>
      </div>
      <div align="center">
        <h3>
-          <%= @result %>
+          <%= CountriesAndCapitals.instance.get_result %>
        </h3>
      </div>
    </div>
