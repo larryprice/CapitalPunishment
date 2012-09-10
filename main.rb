@@ -22,12 +22,12 @@ post '/check_us_answer' do
 end
 
 post '/switch_to_world_mode' do
-  CountriesAndCapitals.instance.reset_result
+  CountriesAndCapitals.instance.reset
   erb :CountriesAndCapitals
 end
 
 post '/switch_to_us_mode' do
-  StatesAndCapitals.instance.reset_result
+  StatesAndCapitals.instance.reset
   erb :StatesAndCapitals
 end
 
@@ -146,6 +146,13 @@ class CountriesAndCapitalsBase
 
   def load_details
     @info = Array.new
+  end
+
+  def reset
+    @game_type = :CAPITALS
+    @question_statement = "What is the capital of"
+    reset_result
+    get_new_question
   end
 
   def reset_result
