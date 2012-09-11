@@ -8,23 +8,15 @@
   <link rel="stylesheet"
   href="http://current.bootstrapcdn.com/bootstrap-v204/css/bootstrap-combined.min.css"/>
   <style>
-    div {
-        page-break-before: always;
-        page-break-after: always;
-    }
     #question {
         position:absolute;
-        top:10%;
-        right:5%;
-        bottom:45%;
-        left:5%;
+        top:5%;
+        width:100%;
     }
     #radio_buttons {
       position:relative;
-      top:20%;
-      right:15%;
-      bottom:20%;
       left:45%;
+      width:100%;
     }
   </style>
 </head>
@@ -36,7 +28,7 @@
                  style="background-color:transparent;border-color:transparent;width:128px;height:128px"
                  title="Click to invert questions."/>
         </form>
-       <br/><br/>
+       <br/>
      </div>
      <div align="center" style="font-size: 48px">
        <p><%= CountriesAndCapitals.instance.get_question_statement %></p>
@@ -53,10 +45,10 @@
          <input type="radio" name="answer" value="third"/><%= CountriesAndCapitals.instance.get_all_answers[2]%><br/>
          <input type="radio" name="answer" value="fourth"/><%= CountriesAndCapitals.instance.get_all_answers[3]%><br/>
          <input type="radio" name="answer" value="fifth"/><%= CountriesAndCapitals.instance.get_all_answers[4]%><br/>
-         <input type="submit" value="Submit"/>
+         <input type="submit" value="Submit" />
        </form>
      </div>
-     <div align="center">
+     <div style="text-align:center;">
        <h3>
           <%= CountriesAndCapitals.instance.get_result %>
        </h3>
@@ -72,7 +64,7 @@
            width="64" height="64" title="Visit my public repos to see the code."/>
     </a>
   </span>
-  <span style ="position:absolute;left:42.5%;bottom:0">
+  <span style="position:absolute;top:0;text-align:right;width:100%">
     Copyright (C) <a href="mailto:larry.price.dev@gmail.com" title="Email me.">Larry Price</a> 2012
   </span>
   <form action="/switch_to_us_mode" method="POST" >

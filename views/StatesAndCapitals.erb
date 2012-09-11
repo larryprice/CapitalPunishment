@@ -8,23 +8,15 @@
   <link rel="stylesheet"
   href="http://current.bootstrapcdn.com/bootstrap-v204/css/bootstrap-combined.min.css"/>
   <style>
-    div {
-        page-break-before: always;
-        page-break-after: always;
-    }
     #question {
         position:absolute;
-        top:10%;
-        right:15%;
-        bottom:45%;
-        left:15%;
+        top:5%;
+        width:100%;
     }
     #radio_buttons {
       position:relative;
-      top:20%;
-      right:15%;
-      bottom:20%;
       left:45%;
+      width:100%;
     }
   </style>
 </head>
@@ -36,7 +28,7 @@
                  style="background-color:transparent;border-color:transparent;width:128px;height:128px"
                  title="Click to invert questions."/>
         </form>
-       <br/><br/>
+       <br/>
      </div>
      <div align="center" style="font-size: 48px">
        <p><%=  StatesAndCapitals.instance.get_question_statement %></p>
@@ -56,7 +48,7 @@
          <input type="submit" value="Submit"/>
        </form>
      </div>
-     <div align="center">
+     <div style="text-align:center;">
        <h3>
           <%= StatesAndCapitals.instance.get_result %>
        </h3>
@@ -72,10 +64,13 @@
            width="64" height="64" title="Visit my public repos to see the code."/>
     </a>
   </span>
+  <span style="position:absolute;top:0;text-align:right;width:100%">
+    Copyright (C) <a href="mailto:larry.price.dev@gmail.com" title="Email me.">Larry Price</a> 2012
+  </span>
   <form action="/switch_to_world_mode" method="POST" >
       <input type="image" src="images/world.png"
              style="position:absolute;left:0;bottom:0;background-color:transparent;border-color:transparent;width:64px;height:64px"
              title="Click to switch to world mode." alt="Switch modes."/>
-    </form>
+  </form>
 </body>
 </html>
