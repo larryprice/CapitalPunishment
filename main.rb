@@ -3,7 +3,6 @@
 
 require 'sinatra'
 require 'nokogiri'
-
 require 'open-uri'
 require 'singleton'
 
@@ -21,12 +20,12 @@ post '/check_us_answer' do
   erb :StatesAndCapitals
 end
 
-post '/switch_to_world_mode' do
+post '/world_mode' do
   CountriesAndCapitals.instance.reset
   erb :CountriesAndCapitals
 end
 
-post '/switch_to_us_mode' do
+post '/us_mode' do
   StatesAndCapitals.instance.reset
   erb :StatesAndCapitals
 end
@@ -140,7 +139,7 @@ class CountriesAndCapitalsBase
         + ' is ' + selected_answer.to_s + '.'
     else
       @result = 'False. The capital of ' + @question.to_s \
-        + ' is certainly not ' + selected_answer.to_s + '.'
+        + ' is ' + selected_answer.to_s + '.'
     end
   end
 

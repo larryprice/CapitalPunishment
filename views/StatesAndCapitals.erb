@@ -10,30 +10,30 @@
   <style>
     #question {
         position:absolute;
-        top:5%;
+        text-align: center;
         width:100%;
+        top:5%;
     }
     #radio_buttons {
       position:relative;
-      left:45%;
     }
   </style>
 </head>
 <body>
    <div id="question">
-     <div align="center">
+     <div>
        <form action="/toggle_mode_us" method="POST" >
           <input type="image" src="images/us.png"
                  style="background-color:transparent;border-color:transparent;width:128px;height:128px"
-                 title="Click to invert questions."/>
+                 title="Click to invert questions!"/>
         </form>
        <br/>
      </div>
-     <div align="center" style="font-size: 48px">
+     <div style="font-size: 48px">
        <p><%=  StatesAndCapitals.instance.get_question_statement %></p>
      </div>
      <br/><br/>
-     <div align="center" style="font-size: 60px">
+     <div style="font-size: 60px">
        <p><b><%= StatesAndCapitals.instance.get_question %>?</b></p>
      </div>
      <br/><br/>
@@ -47,29 +47,23 @@
          <input type="submit" value="Submit"/>
        </form>
      </div>
-     <div style="text-align:center;">
+     <div>
        <h3>
           <%= StatesAndCapitals.instance.get_result %>
        </h3>
      </div>
    </div>
-  <span style ="position:absolute;right:0;bottom:0">
-    <a href="http://www.nullablevoid.blogspot.com/">
-      <img alt="Blogger logo."  src="images/256px-Blogger.svg.png"
-           width="64" height="64" title="Visit my blog to see what I've been up to."/>
-    </a>
-    <a href="https://github.com/lpdev">
-      <img alt="GitHub logo." src="images/github.png"
-           width="64" height="64" title="Visit my public repos to see the code."/>
-    </a>
+  <span style="position:absolute;top:0;right:0;text-align:right;margin-right:5px;">
+    Copyright (C) <a href="http://nullablevoid.blogspot.com" target="_blank" title="Visit my blog.">Larry Price</a> 2012
   </span>
-  <span style="position:absolute;top:0;text-align:right;width:100%">
-    Copyright (C) <a href="mailto:larry.price.dev@gmail.com" title="Email me.">Larry Price</a> 2012
-  </span>
-  <form action="/switch_to_world_mode" method="POST" >
-      <input type="image" src="images/world.png"
-             style="position:absolute;left:0;bottom:0;background-color:transparent;border-color:transparent;width:64px;height:64px"
-             title="Click to switch to world mode." alt="Switch modes."/>
-  </form>
+  <div style="position:absolute;left:0;top:0;">
+    <form action="/world_mode" method="POST" style="margin-bottom:0">
+        <input type="image" src="images/world.png"
+               style="background-color:transparent;border-color:transparent;width:64px;height:64px;"
+               title="Click to switch to world mode." alt="World button."/>
+    </form>
+    <img src="images/us.png" style="background-color:transparent;border-color:transparent;width:64px;height:64px"
+         title="Currently in US mode." alt="US button."/>
+  </div>
 </body>
 </html>
