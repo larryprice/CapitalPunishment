@@ -53,13 +53,6 @@ class CapitalPunishment
     @instance.reset
   end
 
-  def is_button_enabled(flavor)
-    puts flavor
-    puts @instance.class.name
-    return "\"disabled\"" if @instance.class.name == flavor
-    return "\"enabled\""
-  end
-
   def get_image_string
     return "images/" + @instance.class.name.downcase + ".png"
   end
@@ -173,7 +166,7 @@ class CountriesAndCapitalsBase
         + ' is ' + selected_answer.to_s + '.'
     else
       @result = 'False. The capital of ' + @question.to_s \
-        + ' is ' + selected_answer.to_s + '.'
+        + ' is not ' + selected_answer.to_s + '.'
     end
   end
 
@@ -260,11 +253,11 @@ class UnitedStates < CountriesAndCapitalsBase
   def load_details
     details = @data.xpath("//table[@class='wikitable sortable']/tr").map do |row|
 
-      country = row.at_xpath('td[1]/a/text()').to_s.strip
-      next if country.nil? || country.empty?
+      state = row.at_xpath('td[1]/a/text()').to_s.strip
+      next if state.nil? || state.empty?
       capital = Array.new
       capital << row.at_xpath('td[4]/a/text()').to_s.strip
-      { country => capital }
+      { state => capital }
     end
     
     @info = details.select { |detail| !detail.nil? }
@@ -282,11 +275,11 @@ class Canada < CountriesAndCapitalsBase
   def load_details
     details = @data.xpath("//table[@class='wikitable sortable']/tr").map do |row|
 
-      country = row.at_xpath('td[1]/a/text()').to_s.strip
-      next if country.nil? || country.empty?
+      province = row.at_xpath('th[3]/a/text()').to_s.strip
+      next if province.nil? || province.empty?
       capital = Array.new
-      capital << row.at_xpath('td[4]/a/text()').to_s.strip
-      { country => capital }
+      capital << row.at_xpath('td[2]/a/text()').to_s.strip
+      { province => capital }
     end
 
     @info = details.select { |detail| !detail.nil? }
