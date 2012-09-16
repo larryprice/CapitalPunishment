@@ -31,6 +31,11 @@ post '/Canada' do
   erb :CountriesAndCapitals
 end
 
+post '/Mexico' do
+  CapitalPunishment.instance.set_current Mexico.instance
+  erb :CountriesAndCapitals
+end
+
 post '/toggle' do
   CapitalPunishment.instance.current.toggle_game_type_and_get_new_question
   erb :CountriesAndCapitals
@@ -285,3 +290,26 @@ class Canada < CountriesAndCapitalsBase
     @info = details.select { |detail| !detail.nil? }
   end
 end
+
+# Class to load data for Mexico
+class Mexico < CountriesAndCapitalsBase
+  include Singleton
+  def initialize
+    @url = "http://en.wikipedia.org/wiki/List_of_capitals_in_Mexico"
+    super
+  end
+
+  def load_details
+    details = @data.xpath("//table[@class='toc']/tr").map do |row|
+
+      state = row.at_xpath('td[1]/a/text()').to_s.strip
+      next if state.nil? || state.empty?
+      capital = Array.new
+      capital << row.at_xpath('td[2]/a/text()').to_s.strip
+      { state => capital }
+    end
+
+    @info = details.select { |detail| !detail.nil? }
+  end
+end
+
