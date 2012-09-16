@@ -7,43 +7,77 @@ require 'open-uri'
 require 'singleton'
 
 get '/' do
+  CapitalPunishment.instance.set_current World.instance
   erb :CountriesAndCapitals
 end
 
 post '/check_answer' do
-  CountriesAndCapitals.instance.check_answer_and_get_new_question(params[:answer].to_s.strip)
+  CapitalPunishment.instance.current.check_answer_and_get_new_question(params[:answer].to_s.strip)
   erb :CountriesAndCapitals
 end
 
-post '/check_us_answer' do
-  StatesAndCapitals.instance.check_answer_and_get_new_question(params[:answer].to_s.strip)
-  erb :StatesAndCapitals
-end
-
-post '/world_mode' do
-  CountriesAndCapitals.instance.reset
+post '/World' do
+  CapitalPunishment.instance.set_current World.instance
   erb :CountriesAndCapitals
 end
 
-post '/us_mode' do
-  StatesAndCapitals.instance.reset
-  erb :StatesAndCapitals
-end
-
-post '/toggle_mode' do
-  CountriesAndCapitals.instance.toggle_game_type_and_get_new_question
+post '/UnitedStates' do
+  CapitalPunishment.instance.set_current UnitedStates.instance
   erb :CountriesAndCapitals
 end
 
-post '/toggle_mode_us' do
-  StatesAndCapitals.instance.toggle_game_type_and_get_new_question
-  erb :StatesAndCapitals
+post '/Canada' do
+  CapitalPunishment.instance.set_current Canada.instance
+  erb :CountriesAndCapitals
+end
+
+post '/toggle' do
+  CapitalPunishment.instance.current.toggle_game_type_and_get_new_question
+  erb :CountriesAndCapitals
+end
+
+# Class to choose which class to use
+class CapitalPunishment
+  include Singleton
+  
+  def initialize
+    @instance = World.instance
+  end
+
+  def current
+    return @instance
+  end
+
+  def set_current(current)
+    @instance = current
+    @instance.reset
+  end
+
+  def is_button_enabled(flavor)
+    puts flavor
+    puts @instance.class.name
+    return "\"disabled\"" if @instance.class.name == flavor
+    return "\"enabled\""
+  end
+
+  def get_image_string
+    return "images/" + @instance.class.name.downcase + ".png"
+  end
 end
 
 #Base class for flavors of CapitalPunishment game
 class CountriesAndCapitalsBase
   def load_data
     @data = Nokogiri::HTML(open(@url))
+  end
+
+  def initialize
+    if !@url.nil?
+      toggle_game_type
+      load_data
+      load_details
+      get_new_question
+    end
   end
 
   def get_new_question
@@ -182,14 +216,11 @@ class CountriesAndCapitalsBase
 end
 
 # Class for loading data for worldwide states and capitals
-class CountriesAndCapitals < CountriesAndCapitalsBase
+class World < CountriesAndCapitalsBase
   include Singleton
   def initialize
-    toggle_game_type
     @url = "http://en.wikipedia.org/wiki/List_of_national_capitals"
-    load_data
-    load_details
-    get_new_question
+    super
   end
 
   def load_details
@@ -219,14 +250,11 @@ class CountriesAndCapitals < CountriesAndCapitalsBase
 end
 
 # Class for loading data for US States and Capitals
-class StatesAndCapitals < CountriesAndCapitalsBase
+class UnitedStates < CountriesAndCapitalsBase
   include Singleton
   def initialize
-    toggle_game_type
     @url = "http://en.wikipedia.org/wiki/List_of_capitals_in_the_United_States"
-    load_data
-    load_details
-    get_new_question
+    super
   end
 
   def load_details
@@ -239,6 +267,28 @@ class StatesAndCapitals < CountriesAndCapitalsBase
       { country => capital }
     end
     
+    @info = details.select { |detail| !detail.nil? }
+  end
+end
+
+# Class for loading Canada data
+class Canada < CountriesAndCapitalsBase
+  include Singleton
+  def initialize
+    @url = "http://en.wikipedia.org/wiki/Provinces_and_territories_of_Canada"
+    super
+  end
+
+  def load_details
+    details = @data.xpath("//table[@class='wikitable sortable']/tr").map do |row|
+
+      country = row.at_xpath('td[1]/a/text()').to_s.strip
+      next if country.nil? || country.empty?
+      capital = Array.new
+      capital << row.at_xpath('td[4]/a/text()').to_s.strip
+      { country => capital }
+    end
+
     @info = details.select { |detail| !detail.nil? }
   end
 end

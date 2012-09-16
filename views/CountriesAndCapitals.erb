@@ -30,39 +30,39 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-  </script>
+</script>
 </head>
 <body>
    <div id="question">
      <div>
-       <form action="/toggle_mode" method="POST" >
-          <input type="image" src="images/world.png"
+       <form action="/toggle" method="POST" >
+          <input type="image" src=<%= CapitalPunishment.instance.get_image_string %>
                  style="background-color:transparent;border-color:transparent;width:128px;height:128px;"
                  title="Click to invert questions!"/>
         </form>
        <br/>
      </div>
      <div style="font-size: 48px;">
-       <p><%= CountriesAndCapitals.instance.get_question_statement %></p>
+       <p><%= CapitalPunishment.instance.current.get_question_statement %></p>
      </div>
      <br/><br/>
      <div align="center" style="font-size: 60px">
-       <p><b><%= CountriesAndCapitals.instance.get_question %>?</b></p>
+       <p><b><%= CapitalPunishment.instance.current.get_question %>?</b></p>
      </div>
      <br/><br/>
      <div id="radio_buttons">
        <form action="/check_answer" method="POST" >
-         <input type="radio" name="answer" value="first" checked="true"/><%= CountriesAndCapitals.instance.get_all_answers[0]%><br/>
-         <input type="radio" name="answer" value="second"/><%= CountriesAndCapitals.instance.get_all_answers[1]%><br/>
-         <input type="radio" name="answer" value="third"/><%= CountriesAndCapitals.instance.get_all_answers[2]%><br/>
-         <input type="radio" name="answer" value="fourth"/><%= CountriesAndCapitals.instance.get_all_answers[3]%><br/>
-         <input type="radio" name="answer" value="fifth"/><%= CountriesAndCapitals.instance.get_all_answers[4]%><br/>
+         <input type="radio" name="answer" value="first" checked="true"/><%= CapitalPunishment.instance.current.get_all_answers[0]%><br/>
+         <input type="radio" name="answer" value="second"/><%= CapitalPunishment.instance.current.get_all_answers[1]%><br/>
+         <input type="radio" name="answer" value="third"/><%= CapitalPunishment.instance.current.get_all_answers[2]%><br/>
+         <input type="radio" name="answer" value="fourth"/><%= CapitalPunishment.instance.current.get_all_answers[3]%><br/>
+         <input type="radio" name="answer" value="fifth"/><%= CapitalPunishment.instance.current.get_all_answers[4]%><br/>
          <input type="submit" value="Submit" />
        </form>
      </div>
      <div>
        <h3>
-          <%= CountriesAndCapitals.instance.get_result %>
+          <%= CapitalPunishment.instance.current.get_result %>
        </h3>
      </div>
    </div>
@@ -70,9 +70,12 @@
     Copyright (C) <a href="http://nullablevoid.blogspot.com" target="_blank" title="Visit my blog.">Larry Price</a> 2012
   </span>
   <div style="position:absolute;left:0;top:0;">
-    <img src="images/world.png" style="background-color:transparent;border-color:transparent;width:64px;height:64px"
-         title="Currently in world mode." alt="World button."/>
-    <form action="/us_mode" method="POST" style="margin-bottom:0">
+    <form action="/World" method="POST" style="margin-bottom:0">
+      <input type="image" src="images/world.png"
+             style="background-color:transparent;border-color:transparent;width:64px;height:64px"
+             title="Click to go to World mode." alt="US button."/>
+    </form>
+    <form action="/UnitedStates" method="POST" style="margin-bottom:0">
       <input type="image" src="images/us.png"
              style="background-color:transparent;border-color:transparent;width:64px;height:64px"
              title="Click to go to US mode." alt="US button."/>
