@@ -129,9 +129,13 @@ class CountriesAndCapitalsBase
     if !@game_type.nil? && @game_type == :CAPITALS
       @game_type = :COUNTRIES
       @question_statement = "Whose capital is"
+      @correct_result_format = "Correct! %s is the capital of %s."
+      @incorrect_result_format = "%s is not the capital of %s. Try again later."
     else
       @game_type = :CAPITALS
       @question_statement = "What is the capital of"
+      @correct_result_format = "Correct! The capital of %s is %s."
+      @incorrect_result_format = "The capital of %s is not %s. Try again later."
     end
   end
 
@@ -167,11 +171,9 @@ class CountriesAndCapitalsBase
     end
 
     if @answer.include?(selected_answer)
-      @result = 'Correct! The capital of ' + @question.to_s \
-        + ' is ' + selected_answer.to_s + '.'
+      @result = @correct_result_format % [@question.to_s, selected_answer.to_s]
     else
-      @result = 'False. The capital of ' + @question.to_s \
-        + ' is not ' + selected_answer.to_s + '.'
+      @result = @incorrect_result_format % [@question.to_s, selected_answer.to_s]
     end
   end
 
