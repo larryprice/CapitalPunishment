@@ -79,15 +79,16 @@ class CountriesAndCapitalsBase
   end
 
   def get_new_question
-    index = Random.rand(@info.count)
+    state = @info.keys[Random.rand(@info.count)]
+    capitals = @info[state]
+
     if @game_type == :CAPITALS
-      @question = @info[index].first[0]
-      @answer = @info[index].first[1]
+      @question = state
+      @answer = capitals
       generate_answers_for_capitals
     else
-      possible_questions = @info[index].first[1]
-      @question = possible_questions[Random.rand(possible_questions.count)]
-      @answer = @info[index].first[0]
+      @question = capitals[Random.rand(capitals.count)]
+      @answer = state
       generate_answers_for_states
     end
   end
@@ -95,12 +96,13 @@ class CountriesAndCapitalsBase
   def generate_answers_for_capitals
     answers = Array.new
     answers << @answer[Random.rand(@answer.count)]
-    filtered_answers = @info.delete_if { |a, b| b == @answer }
+    filtered_data = @info.delete_if { |state, capital| state == @question }
 
     while answers.count < 5
-      wrong_answer = filtered_answers[Random.rand(filtered_answers.count)]
-      wrong_answer_caps = wrong_answer.first[1]
-      answer_to_add = wrong_answer_caps[Random.rand(wrong_answer_caps.count)]
+      incorrect_key = filtered_data.get_rand_key
+      incorrect_value = filtered_data[incorrect_key]
+
+      answer_to_add = incorrect_value[Random.rand(incorrect_value.count)]
       if !answers.include?(answer_to_add)
         answers << answer_to_add
       end
@@ -112,15 +114,9 @@ class CountriesAndCapitalsBase
   def generate_answers_for_states
     answers = Array.new
     answers << @answer
-    filtered_answers = @info.delete_if { |a, b| a == @answer }
+    filtered_data = @info.delete_if { |state, capital| state == @answer }
 
-    while answers.count < 5
-      wrong_answer = filtered_answers[Random.rand(filtered_answers.count)]
-      wrong_answer_state = wrong_answer.first[0]
-      if !answers.include?(wrong_answer_state)
-        answers << wrong_answer_state
-      end
-    end
+    answers += filtered_data.get_rand_keys(4)
 
     @all_answers = answers.sort_by {rand}
   end
@@ -224,21 +220,22 @@ class World < CountriesAndCapitalsBase
   end
 
   def load_details
-    details = @data.xpath("//table[@class='wikitable sortable']/tr").map do |row|
+    @info = Hash.new
+
+    @data.xpath("//table[@class='wikitable sortable']/tr").each do |row|
 
       country = row.at_xpath('td[2]/b/a/text()').to_s.strip
       if country.nil? || country.empty?
         country = row.at_xpath('td[2]/a/text()').to_s.strip
         next if country.nil? || country.empty?
       end
+
       if country != 'Tonga'
-        { country => get_capital(row) }
+        @info[country] = get_capital(row)
       else
-        { country => ['Nuku\'alofa'] }
+        @info[country] = ['Nuku\'alofa']
       end
     end
-
-    @info = details.select { |detail| !detail.nil? }
   end
 
   def get_capital(row)
@@ -258,16 +255,15 @@ class UnitedStates < CountriesAndCapitalsBase
   end
 
   def load_details
-    details = @data.xpath("//table[@class='wikitable sortable']/tr").map do |row|
+    @info = Hash.new
+
+    @data.xpath("//table[@class='wikitable sortable']/tr").each do |row|
 
       state = row.at_xpath('td[1]/a/text()').to_s.strip
       next if state.nil? || state.empty?
-      capital = Array.new
-      capital << row.at_xpath('td[4]/a/text()').to_s.strip
-      { state => capital }
+
+      @info[state] = [row.at_xpath('td[4]/a/text()').to_s.strip]
     end
-    
-    @info = details.select { |detail| !detail.nil? }
   end
 end
 
@@ -280,16 +276,15 @@ class Canada < CountriesAndCapitalsBase
   end
 
   def load_details
-    details = @data.xpath("//table[@class='wikitable sortable']/tr").map do |row|
+    @info = Hash.new
+
+    @data.xpath("//table[@class='wikitable sortable']/tr").each do |row|
 
       province = row.at_xpath('th[3]/a/text()').to_s.strip
       next if province.nil? || province.empty?
-      capital = Array.new
-      capital << row.at_xpath('td[2]/a/text()').to_s.strip
-      { province => capital }
+      
+      @info[province] = [row.at_xpath('td[2]/a/text()').to_s.strip]
     end
-
-    @info = details.select { |detail| !detail.nil? }
   end
 end
 
@@ -302,16 +297,32 @@ class Mexico < CountriesAndCapitalsBase
   end
 
   def load_details
-    details = @data.xpath("//table[@class='toc']/tr").map do |row|
+    @info = Hash.new
+
+    @data.xpath("//table[@class='toc']/tr").each do |row|
 
       state = row.at_xpath('td[1]/a/text()').to_s.strip
       next if state.nil? || state.empty?
-      capital = Array.new
-      capital << row.at_xpath('td[2]/a/text()').to_s.strip
-      { state => capital }
-    end
 
-    @info = details.select { |detail| !detail.nil? }
+      @info[state] = [row.at_xpath('td[2]/a/text()').to_s.strip]
+    end
   end
 end
 
+class Hash
+  def get_rand_key
+    self.get_rand_keys(1)[0]
+  end
+
+  def get_rand_keys(num_values)
+    random_keys = Array.new
+    while random_keys.size < num_values && random_keys.size < self.size
+      key = self.keys[Random.rand(self.size)]
+      if !random_keys.include? key
+        random_keys << key
+      end
+    end
+
+    random_keys
+  end
+end
