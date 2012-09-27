@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8"/>
   <title>Capital Punishment - Match the Capitals!</title>
   <link rel="icon" type="image/png" href="images/world.png"/>
   <link rel="shortcut icon" href="images/world.png"/>
@@ -9,10 +9,11 @@
   href="http://current.bootstrapcdn.com/bootstrap-v204/css/bootstrap-combined.min.css"/>
   <style>
     #question {
-        position:absolute;
-        text-align: center;
-        width:100%;
-        top:5%;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      height:100%;
+      top: 5%;
     }
     #radio_buttons {
       position:relative;
@@ -38,7 +39,7 @@
        <form action="/toggle" method="POST" >
           <input type="image" src=<%= CapitalPunishment.instance.get_image_string %>
                  style="background-color:transparent;border-color:transparent;width:128px;height:128px;"
-                 title="Click to invert questions!"/>
+                 title="Click to invert questions"/>
         </form>
        <br/>
      </div>
@@ -46,7 +47,7 @@
        <p><%= CapitalPunishment.instance.current.get_question_statement %></p>
      </div>
      <br/><br/>
-     <div align="center" style="font-size: 60px">
+     <div style="font-size: 60px;">
        <p><b><%= CapitalPunishment.instance.current.get_question %>?</b></p>
      </div>
      <br/><br/>
@@ -60,10 +61,8 @@
          <input type="submit" value="Submit" />
        </form>
      </div>
-     <div>
-       <h3>
-          <%= CapitalPunishment.instance.current.get_result %>
-       </h3>
+     <div style="font-size:18px;">
+       <p><b><%= CapitalPunishment.instance.current.get_result %></b></p>
      </div>
    </div>
   <span style="position:absolute;right:0;top:0;text-align:right;margin-right: 5px">

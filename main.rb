@@ -103,9 +103,7 @@ class CountriesAndCapitalsBase
       incorrect_value = filtered_data[incorrect_key]
 
       answer_to_add = incorrect_value[Random.rand(incorrect_value.count)]
-      if !answers.include?(answer_to_add)
-        answers << answer_to_add
-      end
+      answers << answer_to_add if !answers.include?(answer_to_add)
     end
 
     @all_answers = answers.sort_by {rand}
@@ -115,7 +113,6 @@ class CountriesAndCapitalsBase
     answers = Array.new
     answers << @answer
     filtered_data = @info.delete_if { |state, capital| state == @answer }
-
     answers += filtered_data.get_rand_keys(4)
 
     @all_answers = answers.sort_by {rand}
@@ -309,6 +306,7 @@ class Mexico < CountriesAndCapitalsBase
   end
 end
 
+# Extensions for Hash class
 class Hash
   def get_rand_key
     self.get_rand_keys(1)[0]
