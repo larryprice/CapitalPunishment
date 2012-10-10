@@ -4,62 +4,65 @@
 require 'sinatra'
 require 'nokogiri'
 require 'open-uri'
-require 'singleton'
 
-get '/' do
-  CapitalPunishment.instance.set_current World.instance
-  erb :CountriesAndCapitals
-end
+class CapitalPunishment < Sinatra::Base
+  get '/' do
+    $world = set_game_controller($world, World)
 
-post '/check_answer' do
-  CapitalPunishment.instance.current.check_answer_and_get_new_question(params[:answer].to_s.strip)
-  erb :CountriesAndCapitals
-end
-
-post '/World' do
-  CapitalPunishment.instance.set_current World.instance
-  erb :CountriesAndCapitals
-end
-
-post '/UnitedStates' do
-  CapitalPunishment.instance.set_current UnitedStates.instance
-  erb :CountriesAndCapitals
-end
-
-post '/Canada' do
-  CapitalPunishment.instance.set_current Canada.instance
-  erb :CountriesAndCapitals
-end
-
-post '/Mexico' do
-  CapitalPunishment.instance.set_current Mexico.instance
-  erb :CountriesAndCapitals
-end
-
-post '/toggle' do
-  CapitalPunishment.instance.current.toggle_game_type_and_get_new_question
-  erb :CountriesAndCapitals
-end
-
-# Class to choose which class to use
-class CapitalPunishment
-  include Singleton
-  
-  def initialize
-    @instance = World.instance
+    erb :CountriesAndCapitals
   end
 
-  def current
-    return @instance
+  post '/World' do
+    $world = set_game_controller($world, World)
+    erb :CountriesAndCapitals
   end
 
-  def set_current(current)
-    @instance = current
-    @instance.reset
+  post '/UnitedStates' do
+    $united_states = set_game_controller($united_states, UnitedStates)
+    erb :CountriesAndCapitals
   end
 
-  def get_image_string
-    return "images/" + @instance.class.name.downcase + ".png"
+  post '/Canada' do
+    $canada = set_game_controller($canada, Canada)
+    erb :CountriesAndCapitals
+  end
+
+  post '/Mexico' do
+    $mexico = set_game_controller($mexico, Mexico)
+    erb :CountriesAndCapitals
+  end
+
+  post '/check_answer' do
+    unless $game_controller.nil?
+      $game_controller.compare_with_correct_answer(params[:answer].to_s.strip)
+      $game_controller.get_new_question
+    else
+      handle_unexpected_nil
+    end
+    erb :CountriesAndCapitals
+  end
+
+  post '/toggle' do
+    unless $game_controller.nil?
+      $game_controller.toggle_game_type_and_get_new_question
+    else
+      handle_unexpected_nil
+    end
+    erb :CountriesAndCapitals
+  end
+
+  def set_game_controller(game_var, game_type)
+    if game_var.nil?
+      game_var = game_type.new
+    end
+
+    game_var.reset
+    $game_controller = game_var
+  end
+
+  def handle_unexpected_nil
+    set_game_controller($world, World)
+    $game_controller.result = "Something went wrong. I'll reset the game for you."
   end
 end
 
@@ -138,11 +141,6 @@ class CountriesAndCapitalsBase
     reset_result
   end
 
-  def check_answer_and_get_new_question(answer)
-    compare_with_correct_answer(answer)
-    get_new_question
-  end
-
   def compare_with_correct_answer(answer)
     if @answer.empty? || @question.empty?
       return ""
@@ -206,11 +204,14 @@ class CountriesAndCapitalsBase
     reset_result if @result.nil?
     @result
   end
+
+  def get_image_string
+    return "images/" + self.class.name.downcase + ".png"
+  end
 end
 
 # Class for loading data for worldwide states and capitals
 class World < CountriesAndCapitalsBase
-  include Singleton
   def initialize
     @url = "http://en.wikipedia.org/wiki/List_of_national_capitals"
     super
@@ -245,7 +246,6 @@ end
 
 # Class for loading data for US States and Capitals
 class UnitedStates < CountriesAndCapitalsBase
-  include Singleton
   def initialize
     @url = "http://en.wikipedia.org/wiki/List_of_capitals_in_the_United_States"
     super
@@ -266,7 +266,6 @@ end
 
 # Class for loading Canada data
 class Canada < CountriesAndCapitalsBase
-  include Singleton
   def initialize
     @url = "http://en.wikipedia.org/wiki/Provinces_and_territories_of_Canada"
     super
@@ -287,7 +286,6 @@ end
 
 # Class to load data for Mexico
 class Mexico < CountriesAndCapitalsBase
-  include Singleton
   def initialize
     @url = "http://en.wikipedia.org/wiki/List_of_capitals_in_Mexico"
     super

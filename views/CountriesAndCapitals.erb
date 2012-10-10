@@ -37,40 +37,44 @@
    <div id="question">
      <div>
        <form action="/toggle" method="POST" >
-          <input type="image" src=<%= CapitalPunishment.instance.get_image_string %>
+          <input type="image" src=<%= $game_controller.get_image_string %>
                  style="background-color:transparent;border-color:transparent;width:128px;height:128px;"
                  title="Click to invert questions"/>
         </form>
        <br/>
      </div>
      <div style="font-size: 48px;">
-       <p><%= CapitalPunishment.instance.current.get_question_statement %></p>
+       <p><%= $game_controller.get_question_statement %></p>
      </div>
      <br/><br/>
      <div style="font-size: 60px;">
-       <p><b><%= CapitalPunishment.instance.current.get_question %>?</b></p>
+       <p><b><%= $game_controller.get_question %>?</b></p>
      </div>
      <br/><br/>
      <div id="radio_buttons">
        <form action="/check_answer" method="POST" >
-         <input type="radio" name="answer" value="first" checked="true"/><%= CapitalPunishment.instance.current.get_all_answers[0]%><br/>
-         <input type="radio" name="answer" value="second"/><%= CapitalPunishment.instance.current.get_all_answers[1]%><br/>
-         <input type="radio" name="answer" value="third"/><%= CapitalPunishment.instance.current.get_all_answers[2]%><br/>
-         <input type="radio" name="answer" value="fourth"/><%= CapitalPunishment.instance.current.get_all_answers[3]%><br/>
-         <input type="radio" name="answer" value="fifth"/><%= CapitalPunishment.instance.current.get_all_answers[4]%><br/>
+         <input type="radio" name="answer" value="first" checked="true"/><%= $game_controller.get_all_answers[0]%><br/>
+         <input type="radio" name="answer" value="second"/><%= $game_controller.get_all_answers[1]%><br/>
+         <input type="radio" name="answer" value="third"/><%= $game_controller.get_all_answers[2]%><br/>
+         <input type="radio" name="answer" value="fourth"/><%= $game_controller.get_all_answers[3]%><br/>
+         <input type="radio" name="answer" value="fifth"/><%= $game_controller.get_all_answers[4]%><br/>
          <input type="submit" value="Submit" />
        </form>
      </div>
      <div style="font-size:18px;">
-       <p><b><%= CapitalPunishment.instance.current.get_result %></b></p>
+       <p><b><%= $game_controller.get_result %></b></p>
      </div>
    </div>
-  <div style="position:absolute;right:0;top:0;text-align:right;margin-right: 5px; margin-top: 2px;">
-    <img src="images/help.png" style="width: 20px; height: 20px; margin-top: -2px; margin-right: 3px;"
+  <div style="position:absolute;right:0;top:0;text-align:right;margin-right: 5px; margin-top: 5px;">
+    <!-- <img src="images/help.png" style="width: 32px; height: 32px; margin-top: -2px; margin-right: 3px;"
          title="Click for help." alt="Help Button."/>
-    <span style="font-size: 11pt;">
+    <span style="opacity:.4; font-size: 11.5pt;">
+      <b>|</b>
+    </span> -->
+    <span style="font-size: 11.5pt;">
       <b>Copyright (C) <a href="http://nullablevoid.blogspot.com" target="_blank" title="Visit my blog.">Larry Price</a> 2012</b>
     </span>
+    <br />
   </div>
   <div style="position:absolute;left:0;top:0;">
     <form action="/World" method="POST" style="margin-bottom:5px">
