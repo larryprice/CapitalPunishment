@@ -33,9 +33,11 @@ class CapitalPunishment < Sinatra::Base
   end
 
   post '/check_answer' do
-    unless $game_controller.nil?
-      $game_controller.compare_with_correct_answer(params[:answer].to_s.strip)
-      $game_controller.get_new_question
+    type_and_answer = get_type_and_question_and_answer(params[:answer])
+    puts type_and_answer
+    unless @game_controller.nil?
+      @game_controller.compare_with_correct_answer(params[:answer].to_s.strip)
+      @game_controller.get_new_question
     else
       handle_unexpected_nil
     end
@@ -43,8 +45,8 @@ class CapitalPunishment < Sinatra::Base
   end
 
   post '/toggle' do
-    unless $game_controller.nil?
-      $game_controller.toggle_game_type_and_get_new_question
+    unless @game_controller.nil?
+      @game_controller.toggle_game_type_and_get_new_question
     else
       handle_unexpected_nil
     end
@@ -57,12 +59,25 @@ class CapitalPunishment < Sinatra::Base
     end
 
     game_var.reset
-    $game_controller = game_var
+    @game_controller = game_var
   end
 
   def handle_unexpected_nil
     set_game_controller($world, World)
-    $game_controller.result = "Something went wrong. I'll reset the game for you."
+    @game_controller.set_result "Something went wrong. I'll reset the game for you."
+  end
+
+  def get_answer_value(answer)
+    @game_controller.class.name.gsub(' ', '_') + "@" + \
+     @game_controller.get_question.gsub(' ', '_') + '@' + answer.gsub(' ', '_')
+  end
+
+  def get_type_and_question_and_answer(answer_value)
+    vals = answer_value.split('@')
+    if vals.count != 3
+      return nil
+    end
+    {:type => vals[0].gsub('_', ' '), :question => vals[1].gsub('_', ' '), :answer => vals[2].gsub('_', ' ').gsub('/', '')}
   end
 end
 
@@ -183,6 +198,10 @@ class CountriesAndCapitalsBase
     @result = ""
   end
 
+  def set_result(text)
+    @result = text
+  end
+
   def get_all_answers
     @all_answers = Array.new(5) if @all_answers.nil?
     @all_answers
@@ -206,7 +225,7 @@ class CountriesAndCapitalsBase
   end
 
   def get_image_string
-    return "images/" + self.class.name.downcase + ".png"
+    "images/" + self.class.name.downcase + ".png"
   end
 end
 
