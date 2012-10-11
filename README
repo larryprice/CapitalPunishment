@@ -1,4 +1,4 @@
-CapitalPunishment 1.0.5
+CapitalPunishment 1.1.0
 Copyright (C) 2012 Larry Price
 Contact: larry.price.dev@gmail.com
 Website: http://www.nullablevoid.blogspot.com
@@ -12,18 +12,18 @@ and cliks 'Submit' when ready. The application then tells the user
 whether or not they are correct. This continues ad infinitum. If the
 user clicks the icon in the upper part of the page, the game will
 reverse and the user will be given a capital and have to choose which
-country the capital belongs to. A button in the bottom left also
-allows the user to switch from World Mode to US Mode. In US Mode, the
-choices are US states and capitals, otherwise the game is played the
-same.
+country the capital belongs to. Buttons to the left allow the user to
+switch to different game modes, including US, Canada, and Mexico.
 
 TECHNOLOGY
-This app is written using Ruby 1.9.3. Required Gems include Sinatra for web development and Nokogiri for data scraping.
+This app is written using Ruby 1.9.3. Gems include Sinatra for web development and Nokogiri for data scraping.
 
 DATA
 Pages scraped for data include:
 http://en.wikipedia.org/wiki/List_of_national_capitals
 http://en.wikipedia.org/wiki/List_of_capitals_in_the_United_States
+http://en.wikipedia.org/wiki/Provinces_and_territories_of_Canada
+http://en.wikipedia.org/wiki/List_of_capitals_in_Mexico
 
 LICENSE
 This program is free software: you can redistribute it and/or
