@@ -182,8 +182,7 @@ class CountriesAndCapitalsBase
 
   def initialize
     if !@url.nil?
-      load_data
-      load_details
+      load_details(load_data)
     end
   end
 
@@ -248,7 +247,7 @@ class CountriesAndCapitalsBase
     end
   end
 
-  def load_details
+  def load_details(data)
     @info = Array.new
   end
 
@@ -266,10 +265,10 @@ class World < CountriesAndCapitalsBase
     super
   end
 
-  def load_details
+  def load_details(data)
     @info = Hash.new
 
-    @data.xpath("//table[@class='wikitable sortable']/tr").each do |row|
+    data.xpath("//table[@class='wikitable sortable']/tr").each do |row|
 
       country = row.at_xpath('td[2]/b/a/text()').to_s.strip
       if country.nil? || country.empty?
@@ -302,10 +301,10 @@ class UnitedStates < CountriesAndCapitalsBase
     super
   end
 
-  def load_details
+  def load_details(data)
     @info = Hash.new
 
-    @data.xpath("//table[@class='wikitable sortable']/tr").each do |row|
+    data.xpath("//table[@class='wikitable sortable']/tr").each do |row|
 
       state = row.at_xpath('td[1]/a/text()').to_s.strip
       next if state.nil? || state.empty?
@@ -324,10 +323,10 @@ class Canada < CountriesAndCapitalsBase
     super
   end
 
-  def load_details
+  def load_details(data)
     @info = Hash.new
 
-    @data.xpath("//table[@class='wikitable sortable']/tr").each do |row|
+    data.xpath("//table[@class='wikitable sortable']/tr").each do |row|
 
       province = row.at_xpath('th[3]/a/text()').to_s.strip
       next if province.nil? || province.empty?
@@ -346,10 +345,10 @@ class Mexico < CountriesAndCapitalsBase
     super
   end
 
-  def load_details
+  def load_details(data)
     @info = Hash.new
 
-    @data.xpath("//table[@class='toc']/tr").each do |row|
+    data.xpath("//table[@class='toc']/tr").each do |row|
 
       state = row.at_xpath('td[1]/a/text()').to_s.strip
       next if state.nil? || state.empty?
