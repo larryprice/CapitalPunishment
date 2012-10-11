@@ -4,80 +4,173 @@
 require 'sinatra'
 require 'nokogiri'
 require 'open-uri'
+require 'singleton'
 
 class CapitalPunishment < Sinatra::Base
   get '/' do
-    $world = set_game_controller($world, World)
-
+    @result = ''
+    set_game_variables("World")
     erb :CountriesAndCapitals
   end
 
-  post '/World' do
-    $world = set_game_controller($world, World)
+  get '/World' do
+    @result = ''
+    set_game_variables("World")
     erb :CountriesAndCapitals
   end
 
-  post '/UnitedStates' do
-    $united_states = set_game_controller($united_states, UnitedStates)
+  get '/UnitedStates' do
+    @result = ''
+    set_game_variables("UnitedStates")
     erb :CountriesAndCapitals
   end
 
-  post '/Canada' do
-    $canada = set_game_controller($canada, Canada)
+  get '/Canada' do
+    @result = ''
+    set_game_variables("Canada")
     erb :CountriesAndCapitals
   end
 
-  post '/Mexico' do
-    $mexico = set_game_controller($mexico, Mexico)
+  get '/Mexico' do
+    @result = ''
+    set_game_variables("Mexico")
     erb :CountriesAndCapitals
   end
 
   post '/check_answer' do
-    type_and_answer = get_type_and_question_and_answer(params[:answer])
-    puts type_and_answer
-    unless @game_controller.nil?
-      @game_controller.compare_with_correct_answer(params[:answer].to_s.strip)
-      @game_controller.get_new_question
+    game_data = get_game_data(params[:answer])
+
+    unless game_data.nil? || game_data.size != 4
+      check_answer(game_data[:mode], game_data[:type], game_data[:question], game_data[:answer])
+      set_game_variables(game_data[:mode])
     else
       handle_unexpected_nil
     end
+
     erb :CountriesAndCapitals
   end
 
   post '/toggle' do
-    unless @game_controller.nil?
-      @game_controller.toggle_game_type_and_get_new_question
+    @result = ''
+    game_data = get_game_data(params[:mode_image])
+    puts game_data
+
+    if game_data.nil? || game_data.count < 2
+      @game_type = :CAPITALS
+      set_game_variables("World")
     else
-      handle_unexpected_nil
+      if game_data[:type] == :CAPITALS
+        @game_type = :COUNTRIES
+      else
+        @game_type = :CAPITALS
+      end
+      set_game_variables(game_data[:mode])
     end
+    
     erb :CountriesAndCapitals
   end
 
-  def set_game_controller(game_var, game_type)
-    if game_var.nil?
-      game_var = game_type.new
+  def set_game_variables(game_mode)
+    if @game_mode.nil?
+      @game_mode = game_mode
     end
 
-    game_var.reset
-    @game_controller = game_var
+    if @game_type.nil?
+      if params[:mode_image].nil? && params[:answer].nil?
+        @game_type = :CAPITALS
+      else
+        if !params[:mode_image].nil?
+          @game_type = get_game_data(params[:mode_image])[:type]
+        elsif !params[:answer].nil?
+          @game_type = get_game_data(params[:answer])[:type]
+        end
+      end
+    end
+
+    game_var = get_class_instance(game_mode)
+
+    @image_string = game_var.get_image_string
+
+    question_map = game_var.generate_question_information(@game_type)
+
+    @question_statement = @game_type == :CAPITALS ? "What is the capital of" : "Whose capital is"
+    @question = question_map[:question]
+    @all_answers = question_map[:all_answers]
   end
 
   def handle_unexpected_nil
-    set_game_controller($world, World)
-    @game_controller.set_result "Something went wrong. I'll reset the game for you."
+    set_game_variables("World")
+    @result = "Something went wrong. I'll reset the game for you."
   end
 
-  def get_answer_value(answer)
-    @game_controller.class.name.gsub(' ', '_') + "@" + \
-     @game_controller.get_question.gsub(' ', '_') + '@' + answer.gsub(' ', '_')
+  def get_answer_value(answer = nil)
+    answer_value = ''
+    unless @game_mode.nil?
+      answer_value += @game_mode.gsub(' ', '_')
+      unless @game_type.nil?
+        answer_value += '@' + @game_type.to_s
+        unless @question.nil?
+          answer_value += '@' + @question.gsub(' ', '_')
+          unless answer.nil?
+            answer_value += '@' + answer.gsub(' ', '_')
+            return answer_value
+          else
+            return answer_value
+          end
+        else
+          return answer_value
+        end
+      else
+        return answer_value
+      end
+    end
+
+    return nil
   end
 
-  def get_type_and_question_and_answer(answer_value)
-    vals = answer_value.split('@')
-    if vals.count != 3
+  def get_game_data(answer_value)
+    if answer_value.nil?
       return nil
     end
-    {:type => vals[0].gsub('_', ' '), :question => vals[1].gsub('_', ' '), :answer => vals[2].gsub('_', ' ').gsub('/', '')}
+    vals = answer_value.split('@')
+
+    data = Hash.new
+    if vals.count > 0
+      data[:mode] = vals[0].gsub('_', ' ')
+      if vals.count > 1
+        data[:type] = vals[1].to_sym
+        if vals.count > 2
+          data[:question] = vals[2].gsub('_', ' ')
+          if vals.count > 3
+            data[:answer] = vals[3].gsub('_', ' ').gsub('/', '')
+          end
+        end
+      end
+    end
+
+    return data
+  end
+
+  def get_class_instance(mode)
+    if mode == "World"
+      game_var = World.instance
+    elsif mode == "UnitedStates"
+      game_var = UnitedStates.instance
+    elsif mode == "Canada"
+      game_var = Canada.instance
+    elsif mode == "Mexico"
+      game_var = Mexico.instance
+    end
+  end
+
+  def check_answer(mode, type, question, answer)
+    game_var = get_class_instance(mode)
+
+    unless game_var.nil?
+      @result = game_var.check_answer(type, question, answer)
+    else
+      handle_unexpected_nil
+    end
   end
 end
 
@@ -89,139 +182,74 @@ class CountriesAndCapitalsBase
 
   def initialize
     if !@url.nil?
-      toggle_game_type
       load_data
       load_details
-      get_new_question
     end
   end
 
-  def get_new_question
+  def generate_question_information(game_type)
+    state_data = Hash.new
     state = @info.keys[Random.rand(@info.count)]
     capitals = @info[state]
 
-    if @game_type == :CAPITALS
-      @question = state
-      @answer = capitals
-      generate_answers_for_capitals
-    else
-      @question = capitals[Random.rand(capitals.count)]
-      @answer = state
-      generate_answers_for_states
+    if game_type == :CAPITALS
+      state_data[:question] = state
+      state_data[:answer] = capitals[Random.rand(capitals.count)]
+      state_data[:all_answers] = generate_answers_for_capitals(state_data[:answer], state_data[:question])
+    elsif game_type == :COUNTRIES
+      state_data[:question] = capitals[Random.rand(capitals.count)]
+      state_data[:answer] = state
+      state_data[:all_answers] = generate_answers_for_states(state_data[:answer])
     end
+
+    return state_data
   end
   
-  def generate_answers_for_capitals
+  def generate_answers_for_capitals(correct_answer, question)
     answers = Array.new
-    answers << @answer[Random.rand(@answer.count)]
-    filtered_data = @info.delete_if { |state, capital| state == @question }
+    answers << correct_answer
+    filtered_data = @info.select { |state, capital| state != question }
 
     while answers.count < 5
       incorrect_key = filtered_data.get_rand_key
       incorrect_value = filtered_data[incorrect_key]
 
       answer_to_add = incorrect_value[Random.rand(incorrect_value.count)]
-      answers << answer_to_add if !answers.include?(answer_to_add)
+      answers << answer_to_add unless answers.include?(answer_to_add)
     end
 
-    @all_answers = answers.sort_by {rand}
+    return answers.sort_by {rand}
   end
 
-  def generate_answers_for_states
+  def generate_answers_for_states(correct_answer)
     answers = Array.new
-    answers << @answer
-    filtered_data = @info.delete_if { |state, capital| state == @answer }
+    answers << correct_answer
+    filtered_data = @info.select { |state, capital| state != correct_answer }
     answers += filtered_data.get_rand_keys(4)
 
-    @all_answers = answers.sort_by {rand}
+    return answers.sort_by {rand}
   end
 
-  def toggle_game_type
-    if !@game_type.nil? && @game_type == :CAPITALS
-      @game_type = :COUNTRIES
-      @question_statement = "Whose capital is"
-      @correct_result_format = "Correct! %s is the capital of %s."
-      @incorrect_result_format = "%s is not the capital of %s. Try again later."
+  def check_answer(type, question, answer)
+    if type == :CAPITALS
+      if @info[question].include? answer
+        return "Correct! #{answer} is the capital of #{question}."
+      else
+        return "#{answer} is not the capital of #{question}. Try again later."
+      end
+    elsif type == :COUNTRIES
+      if @info[answer].include? question
+        return "Correct! The capital of #{answer} is #{question}."
+      else
+        return "The capital of #{answer} is not #{question}. Try again later."
+      end
     else
-      @game_type = :CAPITALS
-      @question_statement = "What is the capital of"
-      @correct_result_format = "Correct! The capital of %s is %s."
-      @incorrect_result_format = "The capital of %s is not %s. Try again later."
-    end
-  end
-
-  def toggle_game_type_and_get_new_question
-    toggle_game_type
-    get_new_question
-    reset_result
-  end
-
-  def compare_with_correct_answer(answer)
-    if @answer.empty? || @question.empty?
-      return ""
-    end
-
-    case answer
-    when "first"
-      selected_answer = @all_answers[0]
-    when "second"
-      selected_answer = @all_answers[1]
-    when "third"
-      selected_answer = @all_answers[2]
-    when "fourth"
-      selected_answer = @all_answers[3]
-    when "fifth"
-      selected_answer = @all_answers[4]
-    else
-      return ""
-    end
-
-    if @answer.include?(selected_answer)
-      @result = @correct_result_format % [@question.to_s, selected_answer.to_s]
-    else
-      @result = @incorrect_result_format % [@question.to_s, selected_answer.to_s]
+      return nil
     end
   end
 
   def load_details
     @info = Array.new
-  end
-
-  def reset
-    @game_type = :CAPITALS
-    @question_statement = "What is the capital of"
-    reset_result
-    get_new_question
-  end
-
-  def reset_result
-    @result = ""
-  end
-
-  def set_result(text)
-    @result = text
-  end
-
-  def get_all_answers
-    @all_answers = Array.new(5) if @all_answers.nil?
-    @all_answers
-  end
-
-  def get_answer
-    @answer
-  end
-
-  def get_question
-    @question
-  end
-
-  def get_question_statement
-    @question_statement
-  end
-
-  def get_result
-    reset_result if @result.nil?
-    @result
   end
 
   def get_image_string
@@ -231,6 +259,8 @@ end
 
 # Class for loading data for worldwide states and capitals
 class World < CountriesAndCapitalsBase
+  include Singleton
+
   def initialize
     @url = "http://en.wikipedia.org/wiki/List_of_national_capitals"
     super
@@ -265,6 +295,8 @@ end
 
 # Class for loading data for US States and Capitals
 class UnitedStates < CountriesAndCapitalsBase
+  include Singleton
+
   def initialize
     @url = "http://en.wikipedia.org/wiki/List_of_capitals_in_the_United_States"
     super
@@ -285,6 +317,8 @@ end
 
 # Class for loading Canada data
 class Canada < CountriesAndCapitalsBase
+  include Singleton
+
   def initialize
     @url = "http://en.wikipedia.org/wiki/Provinces_and_territories_of_Canada"
     super
@@ -305,6 +339,8 @@ end
 
 # Class to load data for Mexico
 class Mexico < CountriesAndCapitalsBase
+  include Singleton
+
   def initialize
     @url = "http://en.wikipedia.org/wiki/List_of_capitals_in_Mexico"
     super

@@ -37,43 +37,43 @@
    <div id="question">
      <div>
        <form action="/toggle" method="POST" >
-          <input type="image"
-                 src=<%= @game_controller.get_image_string %>
+          <input type="image" value=<%= get_answer_value %> name="mode_image"
+                 src=<%= @image_string %>
                  style="background-color:transparent;border-color:transparent;width:128px;height:128px;"
                  title="Click to invert questions"/>
         </form>
        <br/>
      </div>
      <div style="font-size: 48px;">
-       <p><%= @game_controller.get_question_statement %></p>
+       <p><%= @question_statement %></p>
      </div>
      <br/><br/>
      <div style="font-size: 60px;">
-       <p><b><%= @game_controller.get_question %>?</b></p>
+       <p><b><%= @question %>?</b></p>
      </div>
      <br/><br/>
      <div id="radio_buttons">
        <form action="/check_answer" method="POST" >
          <input type="radio" name="answer" checked="true"
-                value=<%= get_answer_value(@game_controller.get_all_answers[0])%>/>
-         <%= @game_controller.get_all_answers[0]%><br/>
+                value=<%= get_answer_value(@all_answers[0])%>/>
+         <%= @all_answers[0]%><br/>
          <input type="radio" name="answer"
-                value=<%= get_answer_value(@game_controller.get_all_answers[1])%>/>
-         <%= @game_controller.get_all_answers[1]%><br/>
+                value=<%= get_answer_value(@all_answers[1])%>/>
+         <%= @all_answers[1]%><br/>
          <input type="radio" name="answer" 
-                value=<%= get_answer_value(@game_controller.get_all_answers[2])%>/>
-         <%= @game_controller.get_all_answers[2]%><br/>
+                value=<%= get_answer_value(@all_answers[2])%>/>
+         <%= @all_answers[2]%><br/>
          <input type="radio" name="answer" 
-                value=<%= get_answer_value(@game_controller.get_all_answers[3])%>/>
-         <%= @game_controller.get_all_answers[3]%><br/>
+                value=<%= get_answer_value(@all_answers[3])%>/>
+         <%= @all_answers[3]%><br/>
          <input type="radio" name="answer"
-                value=<%= get_answer_value(@game_controller.get_all_answers[4])%>/>
-                <%= @game_controller.get_all_answers[4]%><br/>
+                value=<%= get_answer_value(@all_answers[4])%>/>
+                <%= @all_answers[4]%><br/>
          <input type="submit" value="Submit" />
        </form>
      </div>
      <div style="font-size:18px;">
-       <p><b><%= @game_controller.get_result %></b></p>
+       <p><b><%= @result %></b></p>
      </div>
    </div>
   <div style="position:absolute;right:0;top:0;text-align:right;margin-right: 5px; margin-top: 5px;">
@@ -88,22 +88,22 @@
     <br />
   </div>
   <div style="position:absolute;left:0;top:0;">
-    <form action="/World" method="POST" style="margin-bottom:5px">
+    <form action="/World" method="GET" style="margin-bottom:5px">
       <input type="image" src="images/world.png"
              style="background-color:transparent;border-color:transparent;width:64px;height:64px"
              title="Click to go to World mode." alt="World button."/>
     </form>
-    <form action="/UnitedStates" method="POST" style="margin-bottom:5px">
+    <form action="/UnitedStates" method="GET" style="margin-bottom:5px">
       <input type="image" src="images/unitedstates.png"
              style="background-color:transparent;border-color:transparent;width:64px;height:64px"
              title="Click to go to United States mode." alt="United States button."/>
     </form>
-    <form action="/Canada" method="POST" style="margin-bottom:5px">
+    <form action="/Canada" method="GET" style="margin-bottom:5px">
       <input type="image" src="images/canada.png"
              style="background-color:transparent;border-color:transparent;width:64px;height:64px"
              title="Click to go to Canada mode." alt="Canada button."/>
     </form>
-    <form action="/Mexico" method="POST" style="margin-bottom:5px">
+    <form action="/Mexico" method="GET" style="margin-bottom:5px">
       <input type="image" src="images/mexico.png"
              style="background-color:transparent;border-color:transparent;width:64px;height:64px"
              title="Click to go to Mexico mode." alt="Mexico button."/>
