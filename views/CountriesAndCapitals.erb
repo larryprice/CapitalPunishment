@@ -15,9 +15,6 @@
       width: 100%;
       top: 5%;
     }
-    #radio_buttons {
-      position: relative;
-    }
   </style>
 
   <script type="text/javascript">
@@ -37,7 +34,7 @@
   <div id="help_dialog" class="modal hide fade in" style="display: none; ">
     <div class="modal-header">
       <a class="close" data-dismiss="modal">×</a>
-      <h3>Capital Punishment 1.2.0</h3>
+      <h3>Capital Punishment 1.2.1</h3>
     </div>
     <div class="modal-body">
       <div class="span6">
@@ -69,7 +66,7 @@
     </div>
   </div>
 
-  <div id="question" class="span9">
+  <div id="question" class="container">
    <div>
      <form action="/toggle" method="POST">
         <input type="image" value=<%= get_answer_value %> name="mode_image"
