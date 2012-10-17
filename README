@@ -1,22 +1,13 @@
-CapitalPunishment 1.1.0
+CapitalPunishment 1.2.0
 Copyright (C) 2012 Larry Price
 Contact: larry.price.dev@gmail.com
 Website: http://www.nullablevoid.blogspot.com
 
 OVERVIEW
-CapitalPunishment is a web application to test the user's knowledge of
-geography. Initially, CapitalPunishment asks the user a simple
-question: What is the capital of 'X,' where 'X' is a country. The user
-then clicks 1 of 5 radio buttons to select the appropriate country,
-and cliks 'Submit' when ready. The application then tells the user
-whether or not they are correct. This continues ad infinitum. If the
-user clicks the icon in the upper part of the page, the game will
-reverse and the user will be given a capital and have to choose which
-country the capital belongs to. Buttons to the left allow the user to
-switch to different game modes, including US, Canada, and Mexico.
+Capital Punishment is a web application to test the user's knowledge of geography. The application quizzes the user by presenting a question and five possible answers. The question is of the form 'What is the capital of X?' or 'Whose capital is Y?' The type of question can be changed by clicking on the icon in the center of the page. Other game modes are available by clicking the region icons on the left side of the page.
 
 TECHNOLOGY
-This app is written using Ruby 1.9.3. Gems include Sinatra for web development and Nokogiri for data scraping.
+This app is written using Ruby 1.9.3. Gems include Sinatra for web development and Nokogiri for data scraping. The Twitter Bootstrap is used to make everything a little bit prettier.
 
 DATA
 Pages scraped for data include:
@@ -26,15 +17,9 @@ http://en.wikipedia.org/wiki/Provinces_and_territories_of_Canada
 http://en.wikipedia.org/wiki/List_of_capitals_in_Mexico
 
 LICENSE
-This program is free software: you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.

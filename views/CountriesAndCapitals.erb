@@ -6,85 +6,122 @@
   <link rel="icon" type="image/png" href="images/world.png"/>
   <link rel="shortcut icon" href="images/world.png"/>
   <link rel="stylesheet" href="bootstrap/css/bootstrap.css"/>
+  <script type="text/javascript" src="bootstrap/js/jquery.js"></script>
+  <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
   <style>
     #question {
       position: absolute;
       text-align: center;
       width: 100%;
-      height:100%;
       top: 5%;
     }
     #radio_buttons {
-      position:relative;
+      position: relative;
     }
   </style>
+
   <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34818939-1']);
+    _gaq.push(['_trackPageview']);
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-34818939-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
 </head>
 <body>
-   <div id="question">
-     <div>
-       <form action="/toggle" method="POST" >
-          <input type="image" value=<%= get_answer_value %> name="mode_image"
-                 src=<%= @image_string %>
-                 style="background-color:transparent;border-color:transparent;width:128px;height:128px;"
-                 title="Click to invert questions"/>
-        </form>
-       <br/>
-     </div>
-     <div style="font-size: 48px;">
-       <p><%= @question_statement %></p>
-     </div>
-     <br/><br/>
-     <div style="font-size: 60px;">
-       <p><b><%= @question %>?</b></p>
-     </div>
-     <br/><br/>
-     <div id="radio_buttons">
-       <form action="/check_answer" method="POST" >
-         <input type="radio" name="answer" checked="true"
-                value=<%= get_answer_value(@all_answers[0])%>/>
-         <%= @all_answers[0]%><br/>
-         <input type="radio" name="answer"
-                value=<%= get_answer_value(@all_answers[1])%>/>
-         <%= @all_answers[1]%><br/>
-         <input type="radio" name="answer" 
-                value=<%= get_answer_value(@all_answers[2])%>/>
-         <%= @all_answers[2]%><br/>
-         <input type="radio" name="answer" 
-                value=<%= get_answer_value(@all_answers[3])%>/>
-         <%= @all_answers[3]%><br/>
-         <input type="radio" name="answer"
-                value=<%= get_answer_value(@all_answers[4])%>/>
-                <%= @all_answers[4]%><br/>
-         <input type="submit" value="Submit" />
-       </form>
-     </div>
-     <div style="font-size:18px;">
-       <p><b><%= @result %></b></p>
-     </div>
+  <!-- Help dialog -->
+  <div id="help_dialog" class="modal hide fade in" style="display: none; ">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Capital Punishment 1.2.0</h3>
+    </div>
+    <div class="modal-body">
+      <div class="span6">
+        <legend>Help</legend>
+        <img src="images/help_overview.png"/>
+        <ol>
+          <li>These images represent geographical regions. Click an image to be quizzed on the states and capitals of the specified region.</li>
+          <li>This image shows which region the question labeled '2' represents. Click the image to reverse the way questions are asked: 'What is the capital of X?' becomes 'Whose capital is Y?'</li>
+          <li>This is the current question. By default, the game asks for the capital corresponding to the given state. Click the image labeled '3' to reverse the questions: 'What is the capital of X?' becomes 'Whose capital is Y?'</li>
+          <li>These are the answers. Only one of these answers is correct. Select an answer and click the 'Submit' button. The result will appear below.</li>
+          <li>Click the '?' icon to show this dialog.</li>
+        </ol>
+      </div>
+      <div class="span6">
+        <legend>Description</legend>
+        <p>Capital Punishment is a web application to test the user's knowledge of geography. The application quizzes the user by presenting a question and five possible answers. The question is of the form 'What is the capital of X?' or 'Whose capital is Y?' The type of question can be changed by clicking on the icon in the center of the page. Other game modes are available by clicking the region icons on the left side of the page.</p>
+      </div>
+      <div class="span6">
+        <legend>About</legend>
+        <p>Copyright (C) 2012 Larry Price. Read my blog at <a href="http://nullablevoid.blogspot.com" target="_blank"  title="Visit the Nullable Void" alt="Link to Nullable Void"/>Nullable Void</a>. See <a href="http://github.com/" target="_blank" alt="Link to GitHub" title="Visit GitHub">Github</a> for the <a href="https://github.com/lpdev/CapitalPunishment" target="_blank"  alt="Link to Capital Punishment repository" title="Visit the Capital Punishment repository">Capital Punishment repository</a>. Please send all questions and report issues by sending an email to <a href="mailto:larry.price.dev@gmail.com">larry.price.dev@gmail.com</a>.</p>
+      </div>
+      <div class="span6">
+        <legend>License</legend>
+        <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program.  If not, see <a href="http://www.gnu.org/licenses/" target="_blank" alt="Link to GPL" title="GPL and LGPL full text.">http://www.gnu.org/licenses/</a>.</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a class="btn btn-primary" data-dismiss="modal">Close</a>
+    </div>
+  </div>
+
+  <div id="question" class="span9">
+   <div>
+     <form action="/toggle" method="POST">
+        <input type="image" value=<%= get_answer_value %> name="mode_image"
+               src=<%= @image_string %>
+               style="background-color:transparent;border-color:transparent;width:150px;height:150px;"
+               title="Click to invert questions"/>
+      </form>
+     <br/>
    </div>
+   <div style="font-size: 48px;">
+     <p><%= @question_statement %></p>
+   </div>
+   <br/><br/>
+   <div style="font-size: 60px; margin-left: 4px;">
+     <p><strong><%= @question %>?</strong></p>
+   </div>
+   <br/>
+   <div style="margin-bottom: 10px;">
+     <form action="/check_answer" method="POST">
+       <input type="radio" name="answer" checked="true" style="margin-top: -2px;"
+              value=<%= get_answer_value(@all_answers[0])%>/>
+       <%= @all_answers[0] %><br/>
+       <input type="radio" name="answer" style="margin-top: -2px;"
+              value=<%= get_answer_value(@all_answers[1])%>/>
+       <%= @all_answers[1] %><br/>
+       <input type="radio" name="answer" style="margin-top: -2px;"
+              value=<%= get_answer_value(@all_answers[2])%>/>
+       <%= @all_answers[2] %><br/>
+       <input type="radio" name="answer" style="margin-top: -2px;"
+              value=<%= get_answer_value(@all_answers[3])%>/>
+       <%= @all_answers[3] %><br/>
+       <input type="radio" name="answer" style="margin-top: -2px;"
+              value=<%= get_answer_value(@all_answers[4])%>/>
+              <%= @all_answers[4] %><br/>
+       <input type="submit" class="btn btn-normal" value="Submit" style="margin-top: 10px;" />
+     </form>
+   </div>
+   <div style="font-size:18px;">
+     <p><strong><%= @result %></strong></p>
+   </div>
+  </div>
   <div style="position:absolute;right:0;top:0;text-align:right;margin-right: 5px; margin-top: 5px;">
-    <!-- <img src="images/help.png" style="width: 32px; height: 32px; margin-top: -2px; margin-right: 3px;"
-         title="Click for help." alt="Help Button."/>
+    <a href="#help_dialog" data-toggle="modal" style="text-decoration: none; outline: 0;">
+      <img src="images/help.png" style="width: 32px; height: 32px; margin-top: -2px; margin-right: 3px;"
+         title="Click for help." alt="Help Button." border="0"/>
+    </a>
     <span style="opacity:.4; font-size: 11.5pt;">
-      <b>|</b>
-    </span> -->
-    <span style="font-size: 11.5pt;">
-      <b>Copyright (C) <a href="http://nullablevoid.blogspot.com" target="_blank" title="Visit my blog.">Larry Price</a> 2012</b>
+      <strong>|</strong>
     </span>
-    <br />
+    <span style="font-size: 11.5pt;">
+      <strong>Copyright (C) <a href="http://nullablevoid.blogspot.com" target="_blank" title="Visit my blog.">Larry Price</a> 2012</strong>
+    </span>
   </div>
   <div style="position:absolute;left:0;top:0;">
     <form action="/World" method="GET" style="margin-bottom:5px">
