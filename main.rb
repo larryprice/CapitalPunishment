@@ -53,7 +53,6 @@ class CapitalPunishment < Sinatra::Base
   post '/toggle' do
     @result = ''
     game_data = get_game_data(params[:mode_image])
-    puts game_data
 
     if game_data.nil? || game_data.count < 2
       @game_type = :CAPITALS
@@ -90,6 +89,7 @@ class CapitalPunishment < Sinatra::Base
     game_var = get_class_instance(game_mode)
 
     @class_string = game_var.get_class_name_for_image
+    @version = game_var.get_version_info
 
     question_map = game_var.generate_question_information(@game_type)
 
@@ -183,6 +183,7 @@ class CountriesAndCapitalsBase
   def initialize
     if !@url.nil?
       load_details(load_data)
+      load_readme_info
     end
   end
 
@@ -253,6 +254,24 @@ class CountriesAndCapitalsBase
 
   def get_class_name_for_image
     self.class.name.downcase
+  end
+
+  def get_version_info
+    @version
+  end
+
+  def load_readme_info
+    if @version.nil?
+      basedir = '.'
+      readme = Dir.glob("README").first
+      unless readme.nil?
+        file = File.open(readme)
+        @version = file.readline  # first line is version
+        file.close
+      else
+        @version = "Capital Punishment"
+      end
+    end
   end
 end
 
