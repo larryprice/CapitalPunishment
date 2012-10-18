@@ -89,7 +89,7 @@ class CapitalPunishment < Sinatra::Base
 
     game_var = get_class_instance(game_mode)
 
-    @image_string = game_var.get_image_string
+    @class_string = game_var.get_class_name_for_image
 
     question_map = game_var.generate_question_information(@game_type)
 
@@ -251,8 +251,8 @@ class CountriesAndCapitalsBase
     @info = Array.new
   end
 
-  def get_image_string
-    "images/" + self.class.name.downcase + ".png"
+  def get_class_name_for_image
+    self.class.name.downcase
   end
 end
 

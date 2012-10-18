@@ -3,17 +3,20 @@
 <head>
   <meta charset="utf-8"/>
   <title>Capital Punishment - Match the Capitals!</title>
-  <link rel="icon" type="image/png" href="images/world.png"/>
-  <link rel="shortcut icon" href="images/world.png"/>
-  <link rel="stylesheet" href="bootstrap/css/bootstrap.css"/>
-  <script type="text/javascript" src="bootstrap/js/jquery.js"></script>
-  <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+  <link rel="icon" type="image/png" href="img/world.png"/>
+  <link rel="shortcut icon" href="img/world.png"/>
+  <link rel="stylesheet" href="css/bootstrap.css"/>
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
   <style>
     #question {
       position: absolute;
       text-align: center;
       width: 100%;
       top: 5%;
+    }
+    .btn-image:hover {
+      opacity: 0.9;
     }
   </style>
 
@@ -34,12 +37,12 @@
   <div id="help_dialog" class="modal hide fade in" style="display: none; ">
     <div class="modal-header">
       <a class="close" data-dismiss="modal">×</a>
-      <h3>Capital Punishment 1.2.1</h3>
+      <h3>Capital Punishment 1.2.3</h3>
     </div>
     <div class="modal-body">
       <div class="span6">
         <legend>Help</legend>
-        <img src="images/help_overview.png"/>
+        <img src="img/help_overview.png"/>
         <ol>
           <li>These images represent geographical regions. Click an image to be quizzed on the states and capitals of the specified region.</li>
           <li>This image shows which region the question labeled '2' represents. Click the image to reverse the way questions are asked: 'What is the capital of X?' becomes 'Whose capital is Y?'</li>
@@ -49,8 +52,8 @@
         </ol>
       </div>
       <div class="span6">
-        <legend>Description</legend>
-        <p>Capital Punishment is a web application to test the user's knowledge of geography. The application quizzes the user by presenting a question and five possible answers. The question is of the form 'What is the capital of X?' or 'Whose capital is Y?' The type of question can be changed by clicking on the icon in the center of the page. Other game modes are available by clicking the region icons on the left side of the page.</p>
+        <legend>Overview</legend>
+        <p>Capital Punishment is a pain-free way to memorize states and capitals. Pick your poison from the side bar, and then match the given state to its capital and answer the next question. If you can't get the hang of a question, just move on and try again later. You'll be shocked at how well you know your states and capitals when you're done playing. Click the center button to inject a twist into your game by getting a capital and then answering with the state!</p>
       </div>
       <div class="span6">
         <legend>About</legend>
@@ -70,7 +73,7 @@
    <div>
      <form action="/toggle" method="POST">
         <input type="image" value=<%= get_answer_value %> name="mode_image"
-               src=<%= @image_string %>
+               src=<%= "img/" + @class_string + ".png" %> class="btn-image"
                style="background-color:transparent;border-color:transparent;width:150px;height:150px;"
                title="Click to invert questions"/>
       </form>
@@ -110,8 +113,8 @@
   </div>
   <div style="position:absolute;right:0;top:0;text-align:right;margin-right: 5px; margin-top: 5px;">
     <a href="#help_dialog" data-toggle="modal" style="text-decoration: none; outline: 0;">
-      <img src="images/help.png" style="width: 32px; height: 32px; margin-top: -2px; margin-right: 3px;"
-         title="Click for help." alt="Help Button." border="0"/>
+      <img src="img/help.png" style="width: 32px; height: 32px; margin-top: -2px; margin-right: 3px;"
+         title="Click for help." alt="Help Button." class="btn-image" border="0"/>
     </a>
     <span style="opacity:.4; font-size: 11.5pt;">
       <strong>|</strong>
@@ -122,22 +125,22 @@
   </div>
   <div style="position:absolute;left:0;top:0;">
     <form action="/World" method="GET" style="margin-bottom:5px">
-      <input type="image" src="images/world.png"
+      <input type="image" src="img/world.png" class="btn-image"
              style="background-color:transparent;border-color:transparent;width:64px;height:64px"
              title="Click to go to World mode." alt="World button."/>
     </form>
     <form action="/UnitedStates" method="GET" style="margin-bottom:5px">
-      <input type="image" src="images/unitedstates.png"
+      <input type="image" src="img/unitedstates.png" class="btn-image"
              style="background-color:transparent;border-color:transparent;width:64px;height:64px"
              title="Click to go to United States mode." alt="United States button."/>
     </form>
     <form action="/Canada" method="GET" style="margin-bottom:5px">
-      <input type="image" src="images/canada.png"
+      <input type="image" src="img/canada.png" class="btn-image"
              style="background-color:transparent;border-color:transparent;width:64px;height:64px"
              title="Click to go to Canada mode." alt="Canada button."/>
     </form>
     <form action="/Mexico" method="GET" style="margin-bottom:5px">
-      <input type="image" src="images/mexico.png"
+      <input type="image" src="img/mexico.png" class="btn-image"
              style="background-color:transparent;border-color:transparent;width:64px;height:64px"
              title="Click to go to Mexico mode." alt="Mexico button."/>
     </form>

@@ -1,10 +1,10 @@
-CapitalPunishment 1.2.1
+CapitalPunishment 1.2.3
 Copyright (C) 2012 Larry Price
 Contact: larry.price.dev@gmail.com
 Website: http://www.nullablevoid.blogspot.com
 
 OVERVIEW
-Capital Punishment is a web application to test the user's knowledge of geography. The application quizzes the user by presenting a question and five possible answers. The question is of the form 'What is the capital of X?' or 'Whose capital is Y?' The type of question can be changed by clicking on the icon in the center of the page. Other game modes are available by clicking the region icons on the left side of the page.
+Capital Punishment is a pain-free way to memorize states and capitals. Pick your poison from the side bar, and then match the given state to its capital and answer the next question. If you can't get the hang of a question, just move on and try again later. You'll be shocked at how well you know your states and capitals when you're done playing. Click the center button to inject a twist into your game by getting a capital and then answering with the state!
 
 TECHNOLOGY
 This app is written using Ruby 1.9.3. Gems include Sinatra for web development and Nokogiri for data scraping. The Twitter Bootstrap is used to make everything a little bit prettier.
