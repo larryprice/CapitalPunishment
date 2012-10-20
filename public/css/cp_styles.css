@@ -1,0 +1,89 @@
+body {
+	font-family: Oxygen;
+}
+
+.question-body {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  top: 3%;
+}
+
+.toggle-btn {
+	background-color: transparent;
+	border-color: transparent;
+	width: 150px;
+	height: 150px;
+	margin-bottom: 25px;
+}
+
+.question-stmt {
+	font-size: 48px;
+}
+
+.question {
+	font-size: 60px;
+	margin-left: 4px;
+}
+
+.answer-body {
+	margin-bottom: 10px;
+}
+
+.answer-submit {
+	margin-top: 10px;
+}
+
+.result {
+	font-size: 15pt;
+	font-weight: bold;
+}
+
+.about-body {
+	position: absolute;
+	right: 0;
+	top: 0;
+	text-align: right;
+	margin-right: 5px;
+	margin-top: 5px;
+}
+
+.help-img {
+	width: 32px;
+	height: 32px;
+	margin-top: -2px;
+	margin-right: 3px;
+	border: 0;
+}
+
+.about-divider {
+	opacity: .4;
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+.about-text {
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+.mode-body {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.mode-btn-body {
+	margin-bottom: 5px;
+}
+
+.mode-btn {
+	background-color: transparent;
+	border-color: transparent;
+	width: 64px;
+	height: 64px;
+}
+
+.btn-image:hover {
+  opacity: 0.9;
+}
