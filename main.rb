@@ -280,7 +280,7 @@ class World < CountriesAndCapitalsBase
   include Singleton
 
   def initialize
-    @url = "http://en.wikipedia.org/wiki/List_of_national_capitals"
+    @url = "http://en.wikipedia.org/wiki/List_of_national_capitals_in_alphabetical_order"
     super
   end
 
@@ -288,12 +288,13 @@ class World < CountriesAndCapitalsBase
     @info = Hash.new
 
     data.xpath("//table[@class='wikitable sortable']/tr").each do |row|
-
       country = row.at_xpath('td[2]/b/a/text()').to_s.strip
       if country.nil? || country.empty?
         country = row.at_xpath('td[2]/a/text()').to_s.strip
         next if country.nil? || country.empty?
       end
+
+      puts country
 
       if country != 'Tonga'
         @info[country] = get_capital(row)
