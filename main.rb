@@ -294,8 +294,6 @@ class World < CountriesAndCapitalsBase
         next if country.nil? || country.empty?
       end
 
-      puts country
-
       if country != 'Tonga'
         @info[country] = get_capital(row)
       else
