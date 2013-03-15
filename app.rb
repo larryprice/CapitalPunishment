@@ -1,5 +1,5 @@
 # This file contains all logic for the CapitalPunishment web app.
-# Larry Price 2012
+# Larry Price 2012-2013
 
 require 'sinatra'
 require 'nokogiri'

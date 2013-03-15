@@ -1,6 +1,10 @@
 require 'mongoid'
 
-class State do
+class State
+  include Mongoid::Document
+
   field :name, type: String
-  field :capital
+  field :capital, type: Array
+
+  field :type, type: String
 end

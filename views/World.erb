@@ -1,10 +1,8 @@
 
 <div class="container question-body">
  <div>
-   <form action="/toggle" method="POST">
-      <input type="image" value=<%= get_answer_value %>
-             name="mode_image"
-             src=<%= "img/" + @class_string + ".png" %> class="toggle-btn btn-image"
+   <form action="/toggle/world" method="POST">
+      <input type="image" src="img/world.png" class="toggle-btn btn-image"
              title="Click to invert questions"/>
     </form>
  </div>
