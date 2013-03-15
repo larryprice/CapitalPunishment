@@ -1,159 +1,51 @@
-<!DOCTYPE HTML>
-<html lang="en-US">
-<head>
-  <meta charset="utf-8"/>
-  <title>Capital Punishment - Match the Capitals!</title>
-  <link rel="icon" type="image/png" href="img/world.png"/>
-  <link rel="shortcut icon" href="img/world.png"/>
-  <link rel="stylesheet" href="css/bootstrap.css"/>
-  <link rel="stylesheet" href="css/cp_styles.css"/>
-  <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-  <script type="text/javascript" src="js/jquery.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-34818939-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-</head>
-<body>
-  <!-- Help dialog -->
-  <div id="help_dialog" class="modal hide fade in" style="display: none; ">
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal">×</a>
-      <h3><%= @version %></h3>
-    </div>
-    <div class="modal-body">
-      <div class="span6">
-        <legend>Help</legend>
-        <img src="img/help_overview.png"/>
-        <ol>
-          <li>These images represent geographical regions. Click an image to be quizzed on the states and capitals of the specified region.</li>
-          <li>This image shows which region the question labeled '2' represents. Click the image to reverse the way questions are asked: 'What is the capital of X?' becomes 'Whose capital is Y?'</li>
-          <li>This is the current question. By default, the game asks for the capital corresponding to the given state. Click the image labeled '3' to reverse the questions: 'What is the capital of X?' becomes 'Whose capital is Y?'</li>
-          <li>These are the answers. Only one of these answers is correct. Select an answer and click the 'Submit' button. The result will appear below.</li>
-          <li>Click the '?' icon to show this dialog.</li>
-        </ol>
-      </div>
-      <div class="span6">
-        <legend>Overview</legend>
-        <p>Capital Punishment is a pain-free way to memorize states and capitals. Pick your poison from the side bar, and then match the given state to its capital and answer the next question. If you can't get the hang of a question, just move on and try again later. You'll be shocked at how well you know your states and capitals when you're done playing. Click the center button to inject a twist into your game by getting a capital and then answering with the state!</p>
-      </div>
-      <div class="span6">
-        <legend>Tech</legend>
-        <ul>
-          <li><a href="http://www.ruby-lang.org/en/" target="_blank">Ruby 1.9.3</a> for writing code.</li>
-          <li><a href="http://www.sinatrarb.com/" target="_blank">Sinatra</a> for creating a web server.</li>
-          <li><a href="nokogiri.org" target="_blank">Nokogiri</a> for data scraping.</li>
-          <li><a href="http://www.heroku.com/" target="_blank">Heroku</a> for hosting.</li>
-          <li><a href="http://twitter.github.com/bootstrap/" target="_blank">The Twitter Bootstrap</a> for simplifying the CSS details.</li>
-          <li><a href="http://www.google.com/webfonts" target="_blank">Google Web Fonts</a> for this sweet, sweet <a href="http://www.google.com/webfonts/specimen/Oxygen" target="_blank">Oxygen</a>.</li>
-        </ul>
-      </div>
-      <div class="span6">
-        <legend>About</legend>
-        <p>Copyright (C) 2012 Larry Price. Read <a href="http://larryprice.github.com" target="_blank"  title="Visit my blog" alt="Link to GitHUb Blog"/>my blog</a>. See <a href="http://github.com/" target="_blank" alt="Link to GitHub" title="Visit GitHub">Github</a> for the <a href="https://github.com/larryprice/CapitalPunishment" target="_blank"  alt="Link to Capital Punishment repository" title="Visit the Capital Punishment repository">Capital Punishment repository</a>. Please send all questions and report issues by sending an email to <a href="mailto:larry.price.dev@gmail.com">larry.price.dev@gmail.com</a>.</p>
-      </div>
-      <div class="span6">
-        <legend>License</legend>
-        <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program.  If not, see <a href="http://www.gnu.org/licenses/" target="_blank" alt="Link to GPL" title="GPL and LGPL full text.">http://www.gnu.org/licenses/</a>.</p>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <a class="btn btn-primary" data-dismiss="modal">Close</a>
-    </div>
-  </div>
-
-  <div class="container question-body">
-   <div>
-     <form action="/toggle" method="POST">
-        <input type="image" value=<%= get_answer_value %>
-               name="mode_image"
-               src=<%= "img/" + @class_string + ".png" %> class="toggle-btn btn-image"
-               title="Click to invert questions"/>
-      </form>
-   </div>
-   <div class="question-stmt">
-     <p><%= @question_statement %></p>
-   </div>
-   <br/><br/>
-   <div class="question">
-     <p><strong><%= @question %>?</strong></p>
-   </div>
-   <br/>
-    <div class="answer-body">
-      <form action="/check_answer" method="POST">
-        <div>
-          <input type="radio" name="answer" checked="true" style="margin-top: -2px;"
-                value=<%= get_answer_value(@all_answers[0])%>/>
-          <%= @all_answers[0] %>
-        </div>
-        <div>
-          <input type="radio" name="answer" style="margin-top: -2px;"
-                value=<%= get_answer_value(@all_answers[1])%>/>
-          <%= @all_answers[1] %>
-        </div>
-        <div>
-          <input type="radio" name="answer" style="margin-top: -2px;"
-                value=<%= get_answer_value(@all_answers[2])%>/>
-          <%= @all_answers[2] %>
-        </div>
-        <div>
-          <input type="radio" name="answer" style="margin-top: -2px;"
-                value=<%= get_answer_value(@all_answers[3])%>/>
-          <%= @all_answers[3] %>
-        </div>
-        <div>
-          <input type="radio" name="answer" style="margin-top: -2px;"
-              value=<%= get_answer_value(@all_answers[4])%>/>
-          <%= @all_answers[4] %>
-        </div>
-        <input type="submit" class="btn btn-normal answer-submit" value="Submit" />
-      </form>
-    </div>
-   <div class="result">
-     <p><%= @result %></p>
-   </div>
-  </div>
-  <div class="about-body">
-    <a href="#help_dialog" data-toggle="modal" style="text-decoration: none; outline: 0;">
-      <img src="img/help.png" title="Click for help."
-      alt="Help Button." class="btn-image help-img"/>
-    </a>
-    <span class="about-divider">
-      |
-    </span>
-    <span class="about-text">
-      Copyright (C) <a href="http://larryprice.github.com" target="_blank" title="Visit my blog.">Larry Price</a> 2012
-    </span>
-  </div>
-  <div class="mode-body">
-    <form action="/World" method="GET" class="mode-btn-body">
-      <input type="image" src="img/world.png"
-             class="btn-image mode-btn"
-             title="Click to go to World mode." alt="World button."/>
+<div class="container question-body">
+ <div>
+   <form action="/toggle" method="POST">
+      <input type="image" value=<%= get_answer_value %>
+             name="mode_image"
+             src=<%= "img/" + @class_string + ".png" %> class="toggle-btn btn-image"
+             title="Click to invert questions"/>
     </form>
-    <form action="/UnitedStates" method="GET" class="mode-btn-body">
-      <input type="image" src="img/unitedstates.png"
-             class="btn-image mode-btn"
-             title="Click to go to United States mode." alt="United States button."/>
-    </form>
-    <form action="/Canada" method="GET" class="mode-btn-body">
-      <input type="image" src="img/canada.png"
-             class="btn-image mode-btn"
-             title="Click to go to Canada mode." alt="Canada button."/>
-    </form>
-    <form action="/Mexico" method="GET" class="mode-btn-body">
-      <input type="image" src="img/mexico.png"
-             class="btn-image mode-btn"
-             title="Click to go to Mexico mode." alt="Mexico button."/>
+ </div>
+ <div class="question-stmt">
+   <p><%= @question_statement %></p>
+ </div>
+ <br/><br/>
+ <div class="question">
+   <p><strong><%= @question %>?</strong></p>
+ </div>
+ <br/>
+  <div class="answer-body">
+    <form action="/check_answer" method="POST">
+      <div>
+        <input type="radio" name="answer" checked="true" style="margin-top: -2px;"
+              value=<%= get_answer_value(@all_answers[0])%>/>
+        <%= @all_answers[0] %>
+      </div>
+      <div>
+        <input type="radio" name="answer" style="margin-top: -2px;"
+              value=<%= get_answer_value(@all_answers[1])%>/>
+        <%= @all_answers[1] %>
+      </div>
+      <div>
+        <input type="radio" name="answer" style="margin-top: -2px;"
+              value=<%= get_answer_value(@all_answers[2])%>/>
+        <%= @all_answers[2] %>
+      </div>
+      <div>
+        <input type="radio" name="answer" style="margin-top: -2px;"
+              value=<%= get_answer_value(@all_answers[3])%>/>
+        <%= @all_answers[3] %>
+      </div>
+      <div>
+        <input type="radio" name="answer" style="margin-top: -2px;"
+            value=<%= get_answer_value(@all_answers[4])%>/>
+        <%= @all_answers[4] %>
+      </div>
+      <input type="submit" class="btn btn-normal answer-submit" value="Submit" />
     </form>
   </div>
-</body>
-</html>
+ <div class="result">
+   <p><%= @result %></p>
+ </div>
+</div>

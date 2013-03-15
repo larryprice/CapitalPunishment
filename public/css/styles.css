@@ -2,6 +2,10 @@ body {
 	font-family: Oxygen;
 }
 
+.row {
+	margin-left: 0px;
+}
+
 .question-body {
   position: absolute;
   text-align: center;
