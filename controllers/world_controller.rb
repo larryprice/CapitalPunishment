@@ -20,7 +20,7 @@ class CapitalPunishment
     @all_answers = states.map{ |state| state.capital.sample }.shuffle
     @message = session[:message]
 
-    erb :World
+    erb :capital_punishment
   end
 
   get '/:dataset_type/capitals' do
@@ -33,7 +33,7 @@ class CapitalPunishment
     @all_answers = states.map { |state| state.name}.shuffle
     @message = session[:message]
 
-    erb :World
+    erb :capital_punishment
   end
 
   post '/:dataset_type/states/check_answer/:state_id' do
