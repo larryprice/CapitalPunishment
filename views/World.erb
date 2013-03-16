@@ -1,50 +1,50 @@
 
 <div class="container question-body">
  <div>
-   <form action="/toggle/world" method="POST">
-      <input type="image" src="img/world.png" class="toggle-btn btn-image"
+   <form action=<%="/#{@dataset_type}/#{@mode.to_s}/toggle"%> method="POST">
+      <input type="image" src=<%="/img/#{@dataset_type.downcase}.png"%> class="toggle-btn btn-image"
              title="Click to invert questions"/>
     </form>
  </div>
  <div class="question-stmt">
-   <p><%= @question_statement %></p>
+   <p><%= @mode == :states ? "What is the capital of" : "Whose capital is" %></p>
  </div>
  <br/><br/>
  <div class="question">
-   <p><strong><%= @question %>?</strong></p>
+   <p><strong><%= @mode == :states ? @state : @capital %>?</strong></p>
  </div>
  <br/>
   <div class="answer-body">
-    <form action="/check_answer" method="POST">
+    <form action=<%="#{@mode}/check_answer/#{@state_id}"%> method="POST">
       <div>
-        <input type="radio" name="answer" checked="true" style="margin-top: -2px;"
-              value=<%= get_answer_value(@all_answers[0])%>/>
+        <input type="radio" name="answer" checked="true" value=<%= @all_answers[0].gsub(' ', '%20') %>
+               style="margin-top: -2px;" />
         <%= @all_answers[0] %>
       </div>
       <div>
-        <input type="radio" name="answer" style="margin-top: -2px;"
-              value=<%= get_answer_value(@all_answers[1])%>/>
+        <input type="radio" name="answer" value=<%= @all_answers[1].gsub(' ', '%20') %>
+              style="margin-top: -2px;" />
         <%= @all_answers[1] %>
       </div>
       <div>
-        <input type="radio" name="answer" style="margin-top: -2px;"
-              value=<%= get_answer_value(@all_answers[2])%>/>
+        <input type="radio" name="answer" value=<%= @all_answers[2].gsub(' ', '%20') %>
+               style="margin-top: -2px;" />
         <%= @all_answers[2] %>
       </div>
       <div>
-        <input type="radio" name="answer" style="margin-top: -2px;"
-              value=<%= get_answer_value(@all_answers[3])%>/>
+        <input type="radio" name="answer" value=<%= @all_answers[3].gsub(' ', '%20') %> 
+               style="margin-top: -2px;" />
         <%= @all_answers[3] %>
       </div>
       <div>
-        <input type="radio" name="answer" style="margin-top: -2px;"
-            value=<%= get_answer_value(@all_answers[4])%>/>
+        <input type="radio" name="answer" value=<%= @all_answers[4].gsub(' ', '%20') %>
+               style="margin-top: -2px;" />
         <%= @all_answers[4] %>
       </div>
       <input type="submit" class="btn btn-normal answer-submit" value="Submit" />
     </form>
   </div>
- <div class="result">
-   <p><%= @result %></p>
+ <div class="lead result">
+   <p><%= @message %></p>
  </div>
 </div>
