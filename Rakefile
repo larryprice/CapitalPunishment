@@ -9,6 +9,9 @@ task :spec do
   end
 end
 
+desc "Run all tests"
+task :test => :spec
+
 desc "Start application using webrick on port 9292"
 task :start do
   unless ENV['RACK_ENV'] == :production
