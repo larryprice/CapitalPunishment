@@ -38,7 +38,7 @@
           <ol>
             <li>These images represent geographical regions. Click an image to be quizzed on the states and capitals of the specified region.</li>
             <li>This image shows which region the question labeled '2' represents. Click the image to reverse the way questions are asked: 'What is the capital of X?' becomes 'Whose capital is Y?'</li>
-            <li>This is the current question. By default, the game asks for the capital corresponding to the given state. Click the image labeled '3' to reverse the questions: 'What is the capital of X?' becomes 'Whose capital is Y?'</li>
+            <li>This is the current question. By default, the game asks for the capital corresponding to the given state. Click the image labeled '2' to reverse the questions: 'What is the capital of X?' becomes 'Whose capital is Y?'</li>
             <li>These are the answers. Only one of these answers is correct. Select an answer and click the 'Submit' button. The result will appear below.</li>
             <li>Click the '?' icon to show this dialog.</li>
           </ol>
@@ -52,15 +52,17 @@
           <ul>
             <li><a href="http://www.ruby-lang.org/en/" target="_blank">Ruby 1.9.3</a> for writing code.</li>
             <li><a href="http://www.sinatrarb.com/" target="_blank">Sinatra</a> for creating a web server.</li>
-            <li><a href="nokogiri.org" target="_blank">Nokogiri</a> for data scraping.</li>
+            <li><a href="http://www.mongoid.org/" target="_blank">Mongoid</a> for storing data.</li>
+            <li><a href="http://nokogiri.org" target="_blank">Nokogiri</a> for data scraping.</li>
+            <li><a href="http://rspec.info" target="_blank">RSpec</a> for unit testing.</li>
             <li><a href="http://www.heroku.com/" target="_blank">Heroku</a> for hosting.</li>
-            <li><a href="http://twitter.github.com/bootstrap/" target="_blank">The Twitter Bootstrap</a> for simplifying the CSS details.</li>
+            <li><a href="http://twitter.github.com/bootstrap/" target="_blank">The Twitter Bootstrap</a> for simply elegant CSS.</li>
             <li><a href="http://www.google.com/webfonts" target="_blank">Google Web Fonts</a> for this sweet, sweet <a href="http://www.google.com/webfonts/specimen/Oxygen" target="_blank">Oxygen</a>.</li>
           </ul>
         </div>
         <div class="row">
           <legend>About</legend>
-          <p>Copyright (C) 2012 Larry Price. Read <a href="http://larryprice.github.com" target="_blank"  title="Visit my blog" alt="Link to GitHUb Blog"/>my blog</a>. See <a href="http://github.com/" target="_blank" alt="Link to GitHub" title="Visit GitHub">Github</a> for the <a href="https://github.com/larryprice/CapitalPunishment" target="_blank"  alt="Link to Capital Punishment repository" title="Visit the Capital Punishment repository">Capital Punishment repository</a>. Please send all questions and report issues by sending an email to <a href="mailto:larry.price.dev@gmail.com">larry.price.dev@gmail.com</a>.</p>
+          <p>Copyright (C) 2012-2013 Larry Price. <a href="http://larryprice.github.com" target="_blank"  title="Visit my blog" alt="Link to GitHub Blog"/>Read my blog</a> or follow me on Twitter <a href="https://twitter.com/larryrprice" target="_blank">@larryrprice</a>. Go to <a href="http://github.com/" target="_blank" alt="Link to GitHub" title="Visit GitHub">Github</a> to see the <a href="https://github.com/larryprice/CapitalPunishment" target="_blank"  alt="Link to Capital Punishment repository" title="Visit the Capital Punishment repository">Capital Punishment repository</a>. Please send all questions and report issues by sending an email to <a href="mailto:larry.price.dev@gmail.com">larry.price.dev@gmail.com</a>.</p>
         </div>
         <div class="row">
           <legend>License</legend>
@@ -73,41 +75,45 @@
     </div>
   </div>
 
-
   <%= yield %>
 
   <!-- About container -->
-  <div class="about-body">
+  <div class="about-body pull-right">
     <a href="#help_dialog" data-toggle="modal" style="text-decoration: none; outline: 0;">
-      <i class='icon-question-sign' style='vertical-align: top; margin-left: -10px;'></i>
+      <i class='icon-question-sign info-icon btn-image'></i>
     </a>
-    <span class="about-text">
-      Copyright (C) <a href="http://larryprice.github.com" target="_blank" title="Visit my blog.">Larry Price</a> 2012
-    </span>
+    <strong>Copyright (C) <a href="http://larryprice.github.com" target="_blank" title="Visit my blog.">Larry Price</a> 2012-2013</strong>
   </div>
 
   <!-- Mode selection -->
-  <div class="mode-body">
-    <form action="/World" method="GET" class="mode-btn-body">
-      <input type="image" src="/img/world.png"
-             class="btn-image mode-btn"
-             title="Click to go to World mode." alt="World button."/>
-    </form>
-    <form action="/UnitedStates" method="GET" class="mode-btn-body">
-      <input type="image" src="/img/unitedstates.png"
-             class="btn-image mode-btn"
-             title="Click to go to United States mode." alt="United States button."/>
-    </form>
-    <form action="/Canada" method="GET" class="mode-btn-body">
-      <input type="image" src="/img/canada.png"
-             class="btn-image mode-btn"
-             title="Click to go to Canada mode." alt="Canada button."/>
-    </form>
-    <form action="/Mexico" method="GET" class="mode-btn-body">
-      <input type="image" src="/img/mexico.png"
-             class="btn-image mode-btn"
-             title="Click to go to Mexico mode." alt="Mexico button."/>
-    </form>
+  <div class="mode-body pull-left">
+    <div class="row">
+      <form action="/World" method="GET" class="mode-btn-body">
+        <input type="image" src="/img/world.png"
+               class="btn-image mode-btn"
+               title="Click to go to World mode." alt="World button."/>
+      </form>
+    </div>
+    <div class="row">
+      <form action="/UnitedStates" method="GET" class="mode-btn-body">
+        <input type="image" src="/img/unitedstates.png"
+               class="btn-image mode-btn"
+               title="Click to go to United States mode." alt="United States button."/>
+      </form>
+    </div>
+    <div class="row">
+      <form action="/Canada" method="GET" class="mode-btn-body">
+        <input type="image" src="/img/canada.png"
+               class="btn-image mode-btn"
+               title="Click to go to Canada mode." alt="Canada button."/>
+      </form>
+    </div>
+    <div class="row">
+      <form action="/Mexico" method="GET" class="mode-btn-body">
+        <input type="image" src="/img/mexico.png"
+               class="btn-image mode-btn"
+               title="Click to go to Mexico mode." alt="Mexico button."/>
+      </form>
   </div>
 </body>
 </html>

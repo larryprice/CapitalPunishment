@@ -5,7 +5,7 @@ class CapitalPunishment
     if session[:mode].nil?
       session[:mode] = :states
     end
-    @message = ''
+    session[:message] = ''
 
     redirect "/#{params[:dataset_type]}/#{session[:mode].to_s}"
   end
@@ -20,7 +20,7 @@ class CapitalPunishment
     @all_answers = states.map{ |state| state.capital.sample }.shuffle
     @message = session[:message]
 
-    erb :capital_punishment
+    erb :quiz
   end
 
   get '/:dataset_type/capitals' do
@@ -33,7 +33,7 @@ class CapitalPunishment
     @all_answers = states.map { |state| state.name}.shuffle
     @message = session[:message]
 
-    erb :capital_punishment
+    erb :quiz
   end
 
   post '/:dataset_type/states/check_answer/:state_id' do
@@ -41,8 +41,8 @@ class CapitalPunishment
     capital = state.capital
     answer = params[:answer].gsub('%20', ' ')
 
-    session[:message] = capital.include?(answer) ? "Correct! The capital of #{state.name} <strong>is #{answer}</strong>" :
-                                                   "Incorrect. The capital of #{state.name} <strong>is not #{answer}</strong>."
+    session[:message] = capital.include?(answer) ? "<strong class=\"correct-answer\">Correct!</strong> The capital of #{state.name} <strong>is</strong> #{answer}." :
+                                                   "<strong class=\"incorrect-answer\">Incorrect.</strong> The capital of #{state.name} <strong>is not</strong>  #{answer}."
 
     redirect "/#{params[:dataset_type]}/states"
   end
@@ -53,8 +53,8 @@ class CapitalPunishment
     caps = state.capital
     caps_string = caps.join(', ')
     answer = params[:answer].gsub('%20', ' ')
-    session[:message] = name == answer ? "Correct! <strong>#{caps_string}</strong> #{caps.count > 1 ? "<strong>are</strong> all capitals" : "<strong>is</strong> the capital"} of #{answer}" :
-                                         "Incorrect. <strong>#{caps_string}</strong> #{caps.count > 1 ? "<strong>are not</strong> capitals" : "<strong>is not</strong> the capital"} of #{answer}."
+    session[:message] = name == answer ? "<strong class=\"correct-answer\">Correct!</strong> #{caps_string} #{caps.count > 1 ? "<strong>are</strong> capitals" : "<strong>is</strong> the capital"} of #{answer}." :
+                                         "<strong class=\"incorrect-answer\">Incorrect.</strong> #{caps_string} #{caps.count > 1 ? "<strong>are not</strong> capitals" : "<strong>is not</strong> the capital"} of #{answer}."
 
     redirect "/#{params[:dataset_type]}/capitals"
   end

@@ -1,18 +1,20 @@
+/*global styles*/
+@font-face {
+  font-family: 'Oxygen';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Oxygen'), local('Oxygen-Regular'), url(../oxygen.woff) format('woff');
+}
+
 body {
-	font-family: Oxygen;
+	font-family: 'Oxygen', sans-serif;;
 }
 
 .row {
 	margin-left: 0px;
 }
 
-.question-body {
-  position: absolute;
-  text-align: center;
-  width: 100%;
-  top: 3%;
-}
-
+/*quiz styles*/
 .toggle-btn {
 	background-color: transparent;
 	border-color: transparent;
@@ -21,12 +23,21 @@ body {
 	margin-bottom: 25px;
 }
 
+.quiz-body {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  top: 3%;
+}
+
 .question-stmt {
 	font-size: 48px;
+	min-height: 48px;
 }
 
 .question {
 	font-size: 60px;
+	min-height: 60px;
 	margin-left: 4px;
 }
 
@@ -42,32 +53,33 @@ body {
 	font-size: 15pt;
 }
 
-.about-body {
-	position: absolute;
-	right: 0;
-	top: 0;
-	text-align: right;
-	margin-right: 5px;
-	margin-top: 5px;
+.correct-answer {
+	color: #006600;
 }
 
-.help-img {
-	width: 32px;
-	height: 32px;
-	margin-top: -2px;
-	margin-right: 3px;
-	border: 0;
+.incorrect-answer {
+	color: #990000;
+}
+
+/*about styles*/
+.about-body {
+	margin-right: 5px;
+	margin-top: 5px;
+	font-size: 16px;
 }
 
 .about-text {
 	font-size: 12pt;
-	font-weight: bold;
 }
 
+.info-icon {
+	margin-left: -10px;
+	margin-top: 3px;
+}
+
+/*mode button styles*/
 .mode-body {
 	position: absolute;
-	left: 0;
-	top: 0;
 }
 
 .mode-btn-body {

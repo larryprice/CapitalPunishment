@@ -12,4 +12,8 @@ class CapitalPunishment
   get '/' do
     redirect :World
   end
+
+  not_found do
+    redirect '/'
+  end
 end

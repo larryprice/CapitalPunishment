@@ -1,42 +1,40 @@
 
-<div class="container question-body">
- <div>
+<div class="container quiz-body">
+ <div class="row">
    <form action=<%="/#{@dataset_type}/#{@mode.to_s}/toggle"%> method="POST">
       <input type="image" src=<%="/img/#{@dataset_type.downcase}.png"%> class="toggle-btn btn-image"
              title="Click to invert questions"/>
     </form>
  </div>
- <div class="question-stmt">
-   <p><%= @mode == :states ? "What is the capital of" : "Whose capital is" %></p>
+ <div class="row question-stmt">
+   <%= @mode == :states ? "What is the capital of" : "Whose capital is" %>
  </div>
- <br/><br/>
- <div class="question">
-   <p><strong><%= @mode == :states ? @state : @capital %>?</strong></p>
+ <div class="row question">
+   <strong><%= @mode == :states ? @state : @capital %>?</strong>
  </div>
- <br/>
-  <div class="answer-body">
+  <div class="row answer-body">
     <form action=<%="#{@mode}/check_answer/#{@state_id}"%> method="POST">
-      <div>
+      <div class="row">
         <input type="radio" name="answer" checked="true" value=<%= @all_answers[0].gsub(' ', '%20') %>
                style="margin-top: -2px;" />
         <%= @all_answers[0] %>
       </div>
-      <div>
+      <div class="row">
         <input type="radio" name="answer" value=<%= @all_answers[1].gsub(' ', '%20') %>
               style="margin-top: -2px;" />
         <%= @all_answers[1] %>
       </div>
-      <div>
+      <div class="row">
         <input type="radio" name="answer" value=<%= @all_answers[2].gsub(' ', '%20') %>
                style="margin-top: -2px;" />
         <%= @all_answers[2] %>
       </div>
-      <div>
+      <div class="row">
         <input type="radio" name="answer" value=<%= @all_answers[3].gsub(' ', '%20') %> 
                style="margin-top: -2px;" />
         <%= @all_answers[3] %>
       </div>
-      <div>
+      <div class="row">
         <input type="radio" name="answer" value=<%= @all_answers[4].gsub(' ', '%20') %>
                style="margin-top: -2px;" />
         <%= @all_answers[4] %>
@@ -44,7 +42,7 @@
       <input type="submit" class="btn btn-normal answer-submit" value="Submit" />
     </form>
   </div>
- <div class="lead result">
-   <p><%= @message %></p>
+ <div class="row lead result">
+   <%= @message %>
  </div>
 </div>
