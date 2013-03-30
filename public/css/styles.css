@@ -14,6 +14,17 @@ body {
 	margin-left: 0px;
 }
 
+.tooltip-inner {
+  max-width:none;
+  width:100px;
+  padding: 3px;
+  font-size: 12px;
+}
+
+.tooltip.left {
+  margin-left: -10px;
+}
+
 /*quiz styles*/
 .toggle-btn {
 	background-color: transparent;

@@ -1,15 +1,15 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-  <meta charset="utf-8"/>
-  <title>Capital Punishment - Match the Capitals!</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Capital Punishment - Learn your capitals!</title>
   <link rel="icon" type="image/png" href="/img/world.png"/>
   <link rel="shortcut icon" href="/img/world.png"/>
   <link rel="stylesheet" href="/css/bootstrap.css"/>
   <link rel="stylesheet" href="/css/styles.css"/>
-  <link href="http://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet" type="text/css">
   <script type="text/javascript" src="/js/jquery.js"></script>
   <script type="text/javascript" src="/js/bootstrap.js"></script>
+  <script type="text/javascript" src="/js/bootstrap_helpers.js"></script>
   <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(["_setAccount", "UA-34818939-1"]);
@@ -80,7 +80,8 @@
   <!-- About container -->
   <div class="about-body pull-right">
     <a href="#help_dialog" data-toggle="modal" style="text-decoration: none; outline: 0;">
-      <i class="icon-question-sign info-icon btn-image" alt="View the Help and About sections" title="Help and About"></i>
+      <i class="icon-question-sign info-icon btn-image" alt="View the Help and About sections"
+         data-toggle="tooltip" data-placement="bottom" title="Help and About"></i>
     </a>
     <strong>Copyright (C) <a href="http://larryprice.github.com" target="_blank" title="Visit my blog.">Larry Price</a> 2012-2013</strong>
   </div>
@@ -89,30 +90,30 @@
   <div class="mode-body pull-left">
     <div class="row">
       <form action="/World" method="GET" class="mode-btn-body">
-        <input type="image" src="/img/world.png"
-               class="btn-image mode-btn"
-               title="Click to go to World mode." alt="World button."/>
+        <input type="image" src="/img/world.png" class="btn-image mode-btn"
+               data-toggle="tooltip" data-placement="right"
+               title="World countries" alt="World button."/>
       </form>
     </div>
     <div class="row">
       <form action="/UnitedStates" method="GET" class="mode-btn-body">
-        <input type="image" src="/img/unitedstates.png"
-               class="btn-image mode-btn"
-               title="Click to go to United States mode." alt="United States button."/>
+        <input type="image" src="/img/unitedstates.png" class="btn-image mode-btn"
+               data-toggle="tooltip" data-placement="right"
+               title="United States of America states" alt="United States button."/>
       </form>
     </div>
     <div class="row">
       <form action="/Canada" method="GET" class="mode-btn-body">
-        <input type="image" src="/img/canada.png"
-               class="btn-image mode-btn"
-               title="Click to go to Canada mode." alt="Canada button."/>
+        <input type="image" src="/img/canada.png" class="btn-image mode-btn"
+               data-toggle="tooltip" data-placement="right"
+               title="Canada provinces and territories" alt="Canada button."/>
       </form>
     </div>
     <div class="row">
       <form action="/Mexico" method="GET" class="mode-btn-body">
-        <input type="image" src="/img/mexico.png"
-               class="btn-image mode-btn"
-               title="Click to go to Mexico mode." alt="Mexico button."/>
+        <input type="image" src="/img/mexico.png" class="btn-image mode-btn"
+               data-toggle="tooltip" data-placement="right"
+               title="Mexico states" alt="Mexico button."/>
       </form>
   </div>
 </body>

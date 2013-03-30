@@ -1,9 +1,9 @@
-
 <div class="container quiz-body">
  <div class="row">
    <form action=<%="/#{@dataset_type}/#{@mode.to_s}/toggle"%> method="POST">
-      <input type="image" src=<%="/img/#{@dataset_type.downcase}.png"%> class="toggle-btn btn-image"
-             title="Click to invert questions"/>
+      <input type="image" src=<%="/img/#{@dataset_type.downcase}.png"%>
+             class="toggle-btn btn-image" data-toggle="tooltip" data-placement="left"
+             title="Invert questions for a new challenge!"/>
     </form>
  </div>
  <div class="row question-stmt">
