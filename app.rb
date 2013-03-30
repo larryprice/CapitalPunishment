@@ -10,7 +10,7 @@ end
 
 class CapitalPunishment
   get '/' do
-    redirect :World
+    redirect :UnitedStates
   end
 
   not_found do
