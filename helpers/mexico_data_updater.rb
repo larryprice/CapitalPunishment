@@ -3,7 +3,7 @@ require_relative '../models/state'
 require 'nokogiri'
 require 'open-uri'
 
-MEXICO_DATA_WIKI = "http://en.wikipedia.org/wiki/List_of_capitals_in_Mexico"
+MEXICO_DATA_WIKI = "https://en.wikipedia.org/wiki/List_of_capitals_in_Mexico"
 
 class MexicoDataUpdater
   def self.load_data

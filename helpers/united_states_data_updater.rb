@@ -3,7 +3,7 @@ require_relative '../models/state'
 require 'nokogiri'
 require 'open-uri'
 
-USA_DATA_WIKI = "http://en.wikipedia.org/wiki/List_of_capitals_in_the_United_States"
+USA_DATA_WIKI = "https://en.wikipedia.org/wiki/List_of_capitals_in_the_United_States"
 
 class UnitedStatesDataUpdater
   def self.load_data

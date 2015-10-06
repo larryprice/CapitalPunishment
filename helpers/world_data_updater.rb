@@ -3,7 +3,7 @@ require_relative '../models/state'
 require 'nokogiri'
 require 'open-uri'
 
-WORLD_DATA_WIKI = "http://en.wikipedia.org/wiki/List_of_national_capitals_in_alphabetical_order"
+WORLD_DATA_WIKI = "https://en.wikipedia.org/wiki/List_of_national_capitals_in_alphabetical_order"
 
 class WorldDataUpdater
   def self.load_data

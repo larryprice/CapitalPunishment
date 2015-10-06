@@ -3,7 +3,7 @@ require_relative '../models/state'
 require 'nokogiri'
 require 'open-uri'
 
-CANADA_DATA_WIKI = "http://en.wikipedia.org/wiki/Provinces_and_territories_of_Canada"
+CANADA_DATA_WIKI = "https://en.wikipedia.org/wiki/Provinces_and_territories_of_Canada"
 
 class CanadaDataUpdater
   def self.load_data
