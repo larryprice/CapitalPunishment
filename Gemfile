@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby '1.9.3'
+ruby '2.2.0'
 
 gem 'mongoid', '~>3.1'
 gem 'nokogiri', '~>1.5'
